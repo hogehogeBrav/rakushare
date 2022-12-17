@@ -22,6 +22,6 @@ iPhone、iPad、Android等の端末でのネイティブアプリの場合はFlu
 
 ### 利用技術(予定)
 
-- Node.js (Express)
+- Node.js (Express, multer)
 - Python
 - Flutter (Native) ...余裕があれば
