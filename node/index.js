@@ -20,6 +20,23 @@ app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
+// ファイルアップロード
+const multer = require('multer');
+// const strage = multer.diskStorage({
+//   destination: function(req, file, cb){
+//     cb(null, __dirname + '/public/images/');
+//   },
+//   filename: function(req, file, cb){
+//     cb(null, file.originalname);
+//   }
+// });
+// const upload = multer({storage: strage});
+const upload = multer({dest: __dirname + '/uploads/'});
+app.post('/upload', upload.single('file'), (req, res) => {
+  console.log(req.file);
+  res.send('ok');
+});
+
 io_socket.on('connection', function(socket){
   console.log('connected');
   socket.on('c2s' , function(msg){
