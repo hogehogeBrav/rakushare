@@ -16,8 +16,13 @@ app.use(express.static(__dirname + "/css" , {index: false}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// ホーム画面
 app.get('/', (req, res) => {
   res.render('index.ejs');
+});
+
+app.get('/upload', (req, res) => {
+  res.render('upload.ejs');
 });
 
 // ファイルアップロード
