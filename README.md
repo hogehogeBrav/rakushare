@@ -22,6 +22,8 @@ iPhone、iPad、Android等の端末でのネイティブアプリの場合はFlu
 
 ### 利用技術(予定)
 
-- Node.js (Express, multer)
-- Python (fastAPI)
+- Node.js (Express, multer, multer-s3)
+- AWS S3
+- AWS DynamoDB or Aurora
+- ~Python (fastAPI)~
 - Flutter (Native) ...余裕があれば
