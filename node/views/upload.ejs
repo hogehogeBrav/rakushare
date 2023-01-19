@@ -22,7 +22,8 @@
 </body>
 <script type="text/javascript">
   var myDropzone = new Dropzone("div#awesome", { 
-    url: "/upload?folder_name=<%= folder_name %>&passkey=<%= passkey %>",
+    url: "/upload?folder_name=<%= folder_name %>",
+    method: "put",
     dictDefaultMessage: "ここにファイルをドロップしてください",
   });
 </script>

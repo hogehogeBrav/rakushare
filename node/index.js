@@ -8,6 +8,7 @@ const io_socket = require('socket.io')(http_socket);
 const passport = require('passport');
 const mysql = require('mysql2');
 const aws = require('aws-sdk');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 
 app.set('view engine', 'ejs');
@@ -58,11 +59,16 @@ app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
-app.get('/upload', (req, res) => {
+app.post('/upload', (req, res) => {
   console.log(req.query);
+  // bcrypt
+  const saltRounds = 10
+  const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
+  console.log(bcrypt.compareSync(req.body.passkey, hash));
+
+  console.log(hash);
   res.render('upload.ejs', {
-    folder_name: req.query.folder_name,
-    passkey: req.query.passkey,
+    folder_name: req.body.folder_name,
   });
 });
 
@@ -88,7 +94,7 @@ const upload = multer({
 
 // Create images
 // upload(...)で画像を登録。multer公式参照（下記）
-app.post('/upload', upload.single('file'), (req, res, next) => {
+app.put('/upload', upload.single('file'), (req, res, next) => {
   if (req.file) {
     console.log('Image uploaded!');
     // res.redirect('/images');
