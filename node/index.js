@@ -12,6 +12,33 @@ const fs = require('fs');
 
 app.set('view engine', 'ejs');
 
+// // AWS RDS
+// const connection = mysql.createConnection({
+//   host: process.env.AWS_RDS_HOST,
+//   user: process.env.AWS_RDS_USER,
+//   password: process.env.AWS_RDS_PASSWORD,
+//   database: process.env.AWS_RDS_DB,
+//   port: process.env.AWS_RDS_PORT
+// });
+
+// local DB
+const connection = mysql.createConnection({
+  host: process.env.LOCAL_DB_HOST,
+  user: process.env.LOCAL_DB_USER,
+  password: process.env.LOCAL_DB_PASSWORD,
+  database: process.env.LOCAL_DB_DB,
+  port: process.env.LOCAL_DB_PORT
+});
+
+connection.connect(function(err) {
+  if (err) {
+    console.error('Database connection failed: ' + err.stack);
+    return;
+  }
+  console.log('Connected to database.');
+});
+
+// AWS S3
 const s3 = new aws.S3({
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -32,7 +59,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/upload', (req, res) => {
-  res.render('upload.ejs');
+  console.log(req.query);
+  res.render('upload.ejs', {
+    folder_name: req.query.folder_name,
+    passkey: req.query.passkey,
+  });
 });
 
 // ファイルアップロード
@@ -49,9 +80,9 @@ const upload = multer({
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
-      cb(null, "testuser" + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
+      console.log(req);
+      cb(null, req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
     },
-    contentType: multerS3.AUTO_CONTENT_TYPE,
   })
 });
 
@@ -68,8 +99,7 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
     // res.render('image.ejs');
     res.send('ok');
   }
-})
-
+});
 
 io_socket.on('connection', function(socket){
   console.log('connected');
@@ -81,6 +111,5 @@ io_socket.on('connection', function(socket){
     socket.join(msg.auctionid);
   });
 });
-
 
 http_socket.listen(19000);

@@ -15,12 +15,14 @@
     <input type="submit" value="アップロード">
   </form> -->
 
+<form action="/upload">
   <div class="dropzone" id="awesome"></div>
+</form>
 
 </body>
 <script type="text/javascript">
   var myDropzone = new Dropzone("div#awesome", { 
-    url: "/upload",
+    url: "/upload?folder_name=<%= folder_name %>&passkey=<%= passkey %>",
     dictDefaultMessage: "ここにファイルをドロップしてください",
   });
 </script>

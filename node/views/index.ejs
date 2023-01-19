@@ -4,11 +4,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/iziModal/iziModal.css">
   <title>RAKU-SHARE | Home</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="/iziModal/iziModal.js"></script>
 </head>
 <body>
   <h1>RAKU-SHARE</h1>
-  <a href="/upload">みんなに送る</a>
-  <a href="/download">受け取る</a>
+  <button id="upload">みんなに送る</button>
+  <button id="download">みんなからもらう</button>
+
+  <div id="upload_modal">
+    <form action="/upload" method="GET" id="passkey_form">
+      <p id="folder_name">ルーム名：<input type="text" id="folder_name" name="folder_name" value="" required></p>
+      <p id="passkey">アクセスパスワード：<input type="text" id="passkey" name="passkey" value="" required></p>
+      <hr>
+      <div id="confirm_button">
+        <input type="submit" id="upload_confirm" value="ルームを作成">
+      </div>
+    </form>
+  </div>
+
 </body>
+<script src="/index.js"></script>
 </html>
