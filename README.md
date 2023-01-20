@@ -1,6 +1,6 @@
 # 2023_Application
 
-## 就職作品用Repo　
+## 就職作品用Repo
 
 - RakuShare (簡単にファイル共有)
 
@@ -26,4 +26,11 @@ iPhone、iPad、Android等の端末でのネイティブアプリの場合はFlu
 - AWS S3
 - AWS DynamoDB or Aurora
 - ~Python (fastAPI)~
-- Flutter (Native) ...余裕があれば
+- Flutter (Native, WebView) ...余裕があれば
+
+### 日程
+
+- 作品情報 (文字、スクリーンショット) -> 1月末
+- 動画のURL （Google Drive） -> 1月末
+- 動画の完成 -> 2月19日
+- システムの完成 -> 2月26日
