@@ -8,4 +8,5 @@ $(document).on('click', '#upload', function(event) {
 });
 $('#upload_modal').iziModal({
   title: '共有設定',
+  subtitle: 'ルーム名とアクセスパスワードを設定してください',
 });

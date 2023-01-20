@@ -66,9 +66,27 @@ app.post('/upload', (req, res) => {
   const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
   console.log(bcrypt.compareSync(req.body.passkey, hash));
 
-  console.log(hash);
-  res.render('upload.ejs', {
-    folder_name: req.body.folder_name,
+  // DB重複チェック
+  connection.query('SELECT * FROM folder WHERE name = ?', [req.body.folder_name], function (error, results, fields) {
+    if (error) throw error;
+    const count = results.length;
+    console.log(count);
+    if (count > 0) {
+      res.render('index.ejs', {
+        message: 'フォルダ名とアクセスパスワードがが重複しています',
+      });
+    } else {
+      // DB 登録
+      connection.query('INSERT INTO folder (name, passkey, state) VALUES (?, ?, ?)', [req.body.folder_name, hash, 0], function (error, results, fields) {
+        if (error) throw error;
+        console.log('The solution is: ', results);
+      });
+
+      console.log(hash);
+      res.render('upload.ejs', {
+        folder_name: req.body.folder_name,
+      });
+    }
   });
 });
 
