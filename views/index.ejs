@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/destyle.css">
+  <link rel="stylesheet" href="/visuallyhidden.css">
   <link rel="stylesheet" href="/index.css">
   <link rel="stylesheet" href="/iziModal/iziModal.css">
   <title>RAKU-SHARE | Home</title>
@@ -14,9 +15,14 @@
 <body>
   <main>
 
-    <h1>RAKU-SHARE</h1>
-    <button id="upload">みんなに送る</button>
-    <button id="download">みんなからもらう</button>
+    <div id="top_logo">
+      <h1 class="visuallyhidden">RAKU-SHARE</h1>
+    </div>
+    
+    <div id="button_area">
+      <button id="upload">みんなに送る</button>
+      <button id="download">みんなからもらう</button>
+    </div>
 
     <div id="upload_modal">
       <form action="/upload" method="POST" id="passkey_form">

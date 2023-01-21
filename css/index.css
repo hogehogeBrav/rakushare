@@ -1,5 +1,96 @@
-main {
+body {
   background-image: url(/site_images/kumosora1.png);
   background-size: cover;
   height: 100vh;
+}
+
+#top_logo {
+  margin: 0 auto;
+  height: 35vh;
+  width: 85%;
+  background-image: url(/site_images/logo_transparent.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-bottom: 10vh;
+}
+
+#button_area {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 80%;
+}
+
+button#upload {
+  text-align: center;
+  width: 45%;
+  height: 70px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: #000021;
+  background: #1de9b6;
+  line-height: 1.15;
+}
+
+button#upload:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+}
+
+button#download {
+  text-align: center;
+  width: 45%;
+  height: 70px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: #fff;
+  background: #ff5000;
+  line-height: 1.15;
+  font-size: 16px;
+}
+
+button#download:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+}
+
+/* PC */
+@media screen and (min-width: 960px) {
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+  #top_logo {
+    height: 35vh;
+    width: 100%;
+    background-image: url(/site_images/logo_transparent.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-bottom: 10vh;
+  }
+  #button_area {
+    width: 60%;
+  }
+  button#upload {
+    width: 20vw;
+    height: 100px;
+    font-size: 24px;
+  }
+  button#download {
+    width: 20vw;
+    height: 100px;
+    font-size: 24px;
+  }
 }/*# sourceMappingURL=index.css.map */
