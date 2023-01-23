@@ -1,11 +1,12 @@
 body {
+  font-family: "M PLUS 1p";
   background-image: url(/site_images/kumosora1.png);
   background-size: cover;
-  height: 100vh;
+  height: 100svh;
 }
 
 main {
-  height: 88vh;
+  height: 88svh;
 }
 
 #top_logo {
@@ -75,7 +76,7 @@ button#download:hover {
 }
 
 footer {
-  height: 12vh;
+  height: 12svh;
 }
 footer #footer_button {
   height: 100%;
