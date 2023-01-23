@@ -126,7 +126,7 @@ const upload = multer({
     },
     key: function (req, file, cb) {
       console.log(req);
-      cb(null, req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
+      cb(null, "share_folder/" + req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
     },
   })
 });
