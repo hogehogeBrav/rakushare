@@ -26,8 +26,8 @@
 
     <div id="upload_modal">
       <form action="/upload" method="POST" id="passkey_form">
-        <p id="folder_name">ルーム名：<input type="text" id="folder_name" name="folder_name" value="" required></p>
-        <p id="passkey">アクセスパスワード：<input type="text" id="passkey" name="passkey" value="" required></p>
+        <p id="folder_name">ルーム名</p><input type="text" id="folder_name" name="folder_name" value="" required>
+        <p id="passkey">アクセスパスワード</p><input type="text" id="passkey" name="passkey" value="" required>
         <hr>
         <div id="confirm_button">
           <input type="submit" id="upload_confirm" value="ルームを作成">
@@ -36,6 +36,18 @@
     </div>
 
   </main>
+  <footer>
+    <div id="footer_button">
+      <button id="info">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAADQUlEQVRYR+WYgZETMQwA/ysAKuC+AqACQgX8V0CoAKiAUAF0QL6ChwoIFQAVcHQAFYCWsTOKsC3Z98AENOOZ3J0trSVZtnN6ckRyekSsJ/897H0TrffXFb2lnp0EBLjz1Fpcb+Qj7a20ryMTGIUF8mUAsMYE9DNpcw90L+zNBLnuMdLou03QIU/3wN4Vxe+kAVySTynMfMseIwIIaXKnMg7QB9I+eg6IwuJJwm5Bv8i7VwkyA9ZsAg70U2m3TSeASYttCzgCC+hro+Rbgtx43qh8ZxzQN8z3xy1gD7YUesLNBNywORNBN57U6dFMiRYsIf8sTYce0JW00IIIeB3duwLwWclGC5ZZP1IGo6B4LIeXdPEiUAK+TNE7mG8NdkpezZ0xikc9w/THU3kXY/dinCdMkHE6h/HurAfWYK+kEys3ywv5sfEspu8jsAxF/3Nlg43jwoOdpAO5moXyxLuojMKSDkROl7Vb8rxfHyXPrqWDLlXUP2ppVBifJzfL7210oPSjnFHPsxyUshIs7n+oBvySOx3Ge7sySR1VDj37dCzBflcWqAAk/58UUkHX3j2jB9uzsK5rQhtRpBdaFXYlHTmsZBmBJb+zZ4gMedgjFpZDzg4F1rMWtrlXVwhQ3Ftntaq1POgF/m/CjqTBUs+G04Bw6GrwN2DJ+ScqL8LVgDJyr2d1pMWwJGc/iA5dLpuwSzeFJWkwCWjXpmBXY+92uwS2e7u1s5tltmy5URmF5SBDCmA/i3uQoaNNhZ6FNgprq8DBuQCo6OG7eTcyLh+BZUHZa3748I39rTR9raEysJt49y8ME1KEvt7tgr6A6gpwKc9r44Tmv4gomaXpq0YU2NqpPZdAuUJNJafU0iArZ7aE1QJzZvA85gGjmzOA9mjzrufBYpBw2D85CC87DQuvV/AmOxRlKqdL1tE8OEVgMzBw9h8U0oT3rFx+t2SSj9xAgOS3FjzK+21LQRQWHaWU0LpJC0oeksGBwnurNL7EEr7m98BiCMN4UleJljO8b6x6POpVmJ96emGzcTwGtL5YemD6O2kDZI5AaOwobFaOp89T88ABJE1oIU/aGSyFLXmE/NSyC7kt0Ol3wAbMjnU5Ktgf5UvELCyjOzIAAAAASUVORK5CYII="/>
+        <p>使い方</p>
+      </button>
+      <button id="settings">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAD/UlEQVRYR+WYgXHVMAyG2wmACQgTABMQJgAmIExAmYAwAWUC0gmACQgTABMQJgAmAH09q6enyHbeS7jyDt35rrVl6Zcs/Up7enJEcnpEWE/+a7D35KVuuNf6Jb9/2eIFt8osIN/JajKgJtl/shb0FmBvCojPBaCKH8D3Zf08NMtbgH2csroEA9l9v0Qx0tkCbC+GXxrjL8xzUx6vzdkr+Rn9g2QtWGr0razWeH8oP4/pd/Y/mjP2n8maDkG7BCyAHsmiNunqD8kRGTsLnJbAqjrZJcsItnkBahnb2UBqYDu5DCiAqigN4cALNGV1OQeEpzP2IzvoUkZDYLs4FBq5QJd755Ed9i5k9UFmsMP+09xFtw9gWGPy+qXMwpt0ek14TjIxM+4uArqTZZsxZxvGgDl2JAe2FS3bGDwvjnpZd5MF9ghmrEXjzrENGC2Nr8kuAdtysbV/aSIHFqAYVaGDMYYAupF1LisieDtyc6OW0qI5J2cXZlEZ5QcAX0kEFiDfjA6RR81k7WgQPDH3rQCol0VN14Sm05dD944s7l9KBLaV/X24kSxR39wrySiH1GFu3DZyVuLsECzOicbTTS97yo0WFCAeVIDqMbo7T5sOeBHsW6GECOAquFzNdilKjwFKUX7kLNKD2AGFtLIgfSu2/tmnxKBIL16vyLN0+iCr1KGTnN82XmYOgoC4Qy2qEFDEPDDGjtQmWC/alhdtwfuMkNEcL+PYZti+UCNntqGzHzs1sN6J1fcZYUxCZ5FAU/bry3Pob3MJ1ugiIzWwg1yyY/KfBrtPGYQjMmXor5cB9Qfv2Q8Z/3yTnO/bYN/lDnWq4ssJqqJRFzcYNWNHnxpeQl04GdMFgPim25S6yCTdaTOK71yXAmzpUPgkugTgpZcN/zVGhmGf4lDwz4IDMj0FTtgiKLJZA4wdslwat4Ozs1N2ERs0KbOKjYnF89eEgMiQrWHuUKPsA6QmTDL4W6X6IYPi6CK0dQaVEdAbWVGWcKYlxLkdzwqC8+eyJlnwKtLJsn0yK5kcz7Zy0Y5A7VDqSiNnj68oAttHPMsQDP1QY57it4HnxhygPmWHLJWkkUNeBf2ahKO7NMEwTtTRX6aRsyFlyIPGDi/S1RCmcz4Neb1Z8LVxi4NzB5i/HBD7Ra84KI1bDtQP+d3TICqRHYCeySLwmdTAcoHMUGc4JNOUB9LLiv5StXTTio6tfQVgORvbZJJAsT1FQNlbAjZ3VwMhC5ZjS2BrnF3ytRpslGGeUemKjFFGUUaLwKLDtZnFJs/IH4xL5Nr/5am17CeXB88k09pcEthMZ4vMYhQQNEcOMJ3fmfK4VrDqHNCepuhyreGDQOqlrTK7CsTSy0cF9g8KtO4szYVOfAAAAABJRU5ErkJggg=="/>
+        <p>設定</p>
+      </button>
+    </div>
+  </footer>
 </body>
 <script src="/index.js"></script>
 </html>

@@ -5,6 +5,10 @@ body{
   height: 100vh;
 }
 
+main{
+  height: 88vh;
+}
+
 #top_logo{
   margin: 0 auto;
   height: 35vh;
@@ -64,15 +68,55 @@ button#download:hover {
   box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
 }
 
+#upload_modal form{
+  height: 200px;
+  padding: 20px;
+}
+
+footer{
+  height: 12vh;
+  #footer_button{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    #info{
+      text-align: center;
+      width: 25%;
+      height: 100%;
+      background-color: #f5f5f5;
+      border-top: solid 2px #9d9d9d;
+      border-right: solid 2px #9d9d9d;
+      border-radius: 0 20px 0 0;
+      p{
+        margin-top: 3px;
+      }
+    }
+    #settings{
+      text-align: center;
+      display: block;
+      width: 25%;
+      height: 100%;
+      background-color: #f5f5f5;
+      border-top: solid 2px #9d9d9d;
+      border-left: solid 2px #9d9d9d;
+      border-radius: 20px 0 0 0;
+      p{
+        margin-top: 3px;
+      }
+    }
+  }
+}
+
 /* PC */
 @media screen and (min-width:960px){
   main{
     width: 80%;
+    height: 80vh;
     margin: 0 auto;
   }
 
   #top_logo{
-    height: 35vh;
+    height: 30vh;
     width: 100%;
     background-image: url(/site_images/logo_transparent.png);
     background-position: center;
@@ -88,11 +132,44 @@ button#download:hover {
   button#upload{
     width: 20vw;
     height: 100px;
-    font-size: 24px;
+    font-size: 22px;
   }
   button#download{
     width: 20vw;
     height: 100px;
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  footer{
+    width: 65%;
+    margin: 0 auto;
+    height: 13vh;
+    #footer_button{
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      #info{
+        width: 13vh;
+        // height: 100%;
+        background-color: #f5f5f5;
+        border: solid 3px #9d9d9d;
+        border-radius: 50%;
+        p{
+          margin-top: 5px;
+          font-size: 20px;
+        }
+      }
+      #settings{
+        width: 13vh;
+        // height: 100%;
+        background-color: #f5f5f5;
+        border: solid 3px #9d9d9d;
+        border-radius: 50%;
+        p{
+          margin-top: 5px;
+          font-size: 20px;
+        }
+      }
+    }
   }
 }
