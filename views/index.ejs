@@ -9,9 +9,11 @@
   <link rel="stylesheet" href="/visuallyhidden.css">
   <link rel="stylesheet" href="/index.css">
   <link rel="stylesheet" href="/iziModal/iziModal.css">
+  <link rel="stylesheet" href="/toastr/toastr.css">
   <title>RAKU-SHARE | Home</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="/iziModal/iziModal.js"></script>
+  <script src="/toastr/toastr.min.js"></script>
 </head>
 <body>
   <main>
@@ -27,11 +29,21 @@
 
     <div id="upload_modal">
       <form action="/upload" method="POST" id="passkey_form">
-        <p id="folder_name">ルーム名</p><input type="text" id="folder_name" name="folder_name" value="" required>
-        <p id="passkey">アクセスパスワード</p><input type="text" id="passkey" name="passkey" value="" required>
-        <hr>
+        <p id="folder_name">ルーム名</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="folder_name" required>
+          </label>
+        </div>
+        <p id="passkey">アクセスパスワードの設定</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="password" name="passkey" required>
+          </label>
+        </div>
         <div id="confirm_button">
-          <input type="submit" id="upload_confirm" value="ルームを作成">
+          <button type="button" id="upload_cancel">キャンセル</button>
+          <button type="submit" id="upload_confirm">ルームを作成</button>
         </div>
       </form>
     </div>
@@ -48,7 +60,30 @@
         <p>設定</p>
       </button>
     </div>
+
+    <div id="info_modal">
+      <div id="info_modal_design">
+        <p>
+          使い方を入力するスクロールボックスを配置
+        </p>
+      </div>
+    </div>
+
+    <div id="setting_modal">
+      <div id="setting_modal_design">
+        <p id="folder_name">ルーム名の設定</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="folder_name" required>
+          </label>
+        </div>
+      </div>
+    </div>
+
   </footer>
 </body>
+<script>
+  let upload_error = '<%= upload_error %>';
+</script>
 <script src="/index.js"></script>
 </html>

@@ -56,38 +56,59 @@ app.use(express.urlencoded({extended: true}));
 
 // ホーム画面
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  res.render('index.ejs', {
+    upload_error: 0,
+  });
 });
 
 app.post('/upload', (req, res) => {
-  console.log(req.query);
-  // bcrypt
-  const saltRounds = 10
-  const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
-  console.log(bcrypt.compareSync(req.body.passkey, hash));
 
-  // DB重複チェック
-  connection.query('SELECT * FROM folder WHERE name = ?', [req.body.folder_name], function (error, results, fields) {
-    if (error) throw error;
-    const count = results.length;
-    console.log(count);
-    if (count > 0) {
-      res.render('index.ejs', {
-        message: 'フォルダ名とアクセスパスワードがが重複しています',
-      });
-    } else {
-      // DB 登録
-      connection.query('INSERT INTO folder (name, passkey, state) VALUES (?, ?, ?)', [req.body.folder_name, hash, 0], function (error, results, fields) {
-        if (error) throw error;
-        console.log('The solution is: ', results);
-      });
+  let chkflg = true;
+  // 入力値チェック
+  if(req.body.folder_name == "" || req.body.passkey == ""){
+    chkflg = false;
+    res.render('index.ejs', {
+      upload_error: 2,
+    });
+  } else if(check(req.body.passkey)){
+    chkflg = false;
+    res.render('index.ejs', {
+      upload_error: 3,
+    });
+  }
+  console.log(req.body);
 
-      console.log(hash);
-      res.render('upload.ejs', {
-        folder_name: req.body.folder_name,
-      });
-    }
-  });
+  // 入力チェックOK
+  if(chkflg){
+    // bcrypt
+    const saltRounds = 10
+    const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
+    console.log(bcrypt.compareSync(req.body.passkey, hash));
+
+    // DB重複チェック
+    connection.query('SELECT * FROM folder WHERE name = ?', [req.body.folder_name], function (error, results, fields) {
+      if (error) throw error;
+      const count = results.length;
+      console.log(count);
+      // フォルダ名重複
+      if (count > 0) {
+        res.render('index.ejs', {
+          upload_error: 1,
+        });
+      } else {
+        // DB 登録
+        connection.query('INSERT INTO folder (name, passkey, state) VALUES (?, ?, ?)', [req.body.folder_name, hash, 0], function (error, results, fields) {
+          if (error) throw error;
+          console.log('The solution is: ', results);
+        });
+
+        console.log(hash);
+        res.render('upload.ejs', {
+          folder_name: req.body.folder_name,
+        });
+      }
+    });
+  }
 });
 
 // ファイルアップロード
@@ -105,7 +126,7 @@ const upload = multer({
     },
     key: function (req, file, cb) {
       console.log(req);
-      cb(null, req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
+      cb(null, "share_folder/" + req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
     },
   })
 });
@@ -135,5 +156,16 @@ io_socket.on('connection', function(socket){
     socket.join(msg.auctionid);
   });
 });
+
+// 関数群
+function check(str) {
+  // 半角英数字チェック
+  if (str.match(/[^A-Za-z0-9]+/)) {
+    return true;
+  } else {
+      //半角英数字
+    return false;
+  }
+}
 
 http_socket.listen(19000);
