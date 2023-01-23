@@ -27,11 +27,21 @@
 
     <div id="upload_modal">
       <form action="/upload" method="POST" id="passkey_form">
-        <p id="folder_name">ルーム名</p><input type="text" id="folder_name" name="folder_name" value="" required>
-        <p id="passkey">アクセスパスワード</p><input type="text" id="passkey" name="passkey" value="" required>
-        <hr>
+        <p id="folder_name">ルーム名</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="folder_name" required>
+          </label>
+        </div>
+        <p id="passkey">アクセスパスワード</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="passkey" required>
+          </label>
+        </div>
         <div id="confirm_button">
-          <input type="submit" id="upload_confirm" value="ルームを作成">
+          <button type="button" id="upload_cancel">キャンセル</button>
+          <button type="submit" id="upload_confirm">ルームを作成</button>
         </div>
       </form>
     </div>
