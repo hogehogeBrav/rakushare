@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/toastr/toastr.css">
   <title>RAKU-SHARE | Home</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script src="/iziModal/iziModal.js"></script>
   <script src="/toastr/toastr.min.js"></script>
 </head>
@@ -75,7 +76,7 @@
         <div id="folder_name">
           <div class="cp_iptxt">
             <label class="ef">
-            <input type="text" name="user_name" value="<%= user_name %> " required>
+            <input type="text" id="user_name" value="<%= user_name %>" required>
             </label>
           </div>
           <button id="user_name_button">変更</button>

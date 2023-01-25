@@ -6,6 +6,7 @@ const app = express();
 const http_socket = require('http').Server(app);
 const io_socket = require('socket.io')(http_socket);
 // const passport = require('passport');
+const cron = require('node-cron');
 const mysql = require('mysql2');
 const aws = require('aws-sdk');
 const bcrypt = require('bcrypt');
@@ -69,7 +70,9 @@ app.get('/', (req, res) => {
       // ユーザー名が登録されていない
       if (count == 0) {
         // ユーザー名をDBに保存
-        connection.query('INSERT INTO users (name) VALUES ("' + gen_name + '");', function (error, results, fields) {
+        connection.query('INSERT INTO users (name, is_delete) VALUES (?, ?);',
+        [gen_name, false],
+        (error, results, fields) => {
           if (error) throw error;
           console.log('The solution is: ', results);
         });
@@ -85,57 +88,69 @@ app.get('/', (req, res) => {
   }
 });
 
-app.post('/upload', (req, res) => {
-
-  let chkflg = true;
-  // 入力値チェック
-  if(req.body.folder_name == "" || req.body.passkey == ""){
-    chkflg = false;
-    res.render('index.ejs', {
-      user_name: req.cookies.name,
-      upload_error: 2,
-    });
-  } else if(check(req.body.passkey)){
-    chkflg = false;
-    res.render('index.ejs', {
-      user_name: req.cookies.name,
-      upload_error: 3,
-    });
-  }
-  console.log(req.body);
-
-  // 入力チェックOK
-  if(chkflg){
-    // bcrypt
-    const saltRounds = 10
-    const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
-    console.log(bcrypt.compareSync(req.body.passkey, hash));
-
-    // DB重複チェック
-    connection.query('SELECT * FROM folder WHERE name = ?', [req.body.folder_name], function (error, results, fields) {
-      if (error) throw error;
-      const count = results.length;
-      console.log(count);
-      // フォルダ名重複
-      if (count > 0) {
+app.post('/upload',(req, res) => {
+  connection.query('SELECT * FROM users WHERE name = "' + req.cookies.name + '";',
+    (error, results, fields) => {
+    if (error) throw error;
+    const count = results.length;
+    // ユーザー名が登録されていない
+    if (count == 0) {
+      res.render("index", {
+        user_name: req.cookies.name,
+        upload_error: 4
+      });
+    } else {
+      let chkflg = true;
+      // 入力値チェック
+      if(req.body.folder_name == "" || req.body.passkey == ""){
+        chkflg = false;
         res.render('index.ejs', {
           user_name: req.cookies.name,
-          upload_error: 1,
+          upload_error: 2,
         });
-      } else {
-        // DB 登録
-        connection.query('INSERT INTO folder (name, passkey, state) VALUES (?, ?, ?)', [req.body.folder_name, hash, 0], function (error, results, fields) {
-          if (error) throw error;
-          console.log('The solution is: ', results);
-        });
-
-        console.log(hash);
-        res.render('upload.ejs', {
-          folder_name: req.body.folder_name,
+      } else if(check(req.body.passkey)){
+        chkflg = false;
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          upload_error: 3,
         });
       }
-    });
-  }
+      console.log(req.body);
+    
+      // 入力チェックOK
+      if(chkflg){
+        // bcrypt
+        const saltRounds = 10
+        const hash = bcrypt.hashSync(req.body.passkey, saltRounds);
+        console.log(bcrypt.compareSync(req.body.passkey, hash));
+    
+        // DB重複チェック
+        connection.query('SELECT * FROM folder WHERE name = ?', [req.body.folder_name], function (error, results, fields) {
+          if (error) throw error;
+          const count = results.length;
+          console.log(count);
+          // フォルダ名重複
+          if (count > 0) {
+            res.render('index.ejs', {
+              user_name: req.cookies.name,
+              upload_error: 1,
+            });
+          } else {
+            // DB 登録
+            connection.query('INSERT INTO folder (name, passkey, state) VALUES (?, ?, ?)', [req.body.folder_name, hash, 0], function (error, results, fields) {
+              if (error) throw error;
+              console.log('The solution is: ', results);
+            });
+    
+            console.log(hash);
+            res.render('upload.ejs', {
+              folder_name: req.body.folder_name,
+            });
+          }
+        });
+      }
+    }
+  });
 });
 
 // ファイルアップロード
@@ -173,6 +188,20 @@ app.put('/upload', upload.single('file'), (req, res, next) => {
   }
 });
 
+// ユーザ名変更
+app.post('/user_name', (req, res) => {
+  // ユーザー名をDBに保存
+  connection.query('UPDATE users SET name = ?, add_date = NOW() WHERE name = ?',
+  [req.body.user_name, req.cookies.name],
+  (error, results, fields) => {
+    if (error) throw error;
+    console.log('The solution is: ', results);
+  });
+  // ユーザー名をクッキーに保存
+  res.cookie('name', req.body.user_name, { maxAge: 604800000, httpOnly: true });
+  res.render("index", { user_name: req.body.user_name, upload_error: 0 });
+});
+
 io_socket.on('connection', function(socket){
   console.log('connected');
   socket.on('c2s' , function(msg){
@@ -184,16 +213,25 @@ io_socket.on('connection', function(socket){
   });
 });
 
+// ユーザーcron
+// cron.schedule('*/1 * * * *', () => {
+//   console.log('cron');
+//   connection.query('DELETE ', function (error, results, fields) {
+
 // 関数群
-function usernameCheck(str) {
-  connection.query('SELECT * FROM users WHERE name = "' + str + '";', function (error, results, fields) {
+function usernameCheck(req, res, next) {
+  connection.query('SELECT * FROM users WHERE name = "' + req.cookies.name + '";',
+    (error, results, fields) => {
     if (error) throw error;
     const count = results.length;
     // ユーザー名が登録されていない
     if (count == 0) {
-      return true;
-    } else {
       return false;
+    } else {
+      res.render("index", {
+        user_name: req.cookies.name,
+        upload_error: 4
+      });
     }
   });
 }

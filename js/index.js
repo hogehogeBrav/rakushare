@@ -64,31 +64,53 @@ $('#info_modal').iziModal({
 
 // ユーザー名変更
 $(document).on('click', '#user_name_button', function(event) {
-  const sendData = {
-    username: $('#user_name').val()
-  }
-
-  $.ajax({
-    url: '/user_name',
-    type: 'POST',
-    data: sendData,
-  })
-  .done(function(data) {
-    if(data == 1) {
-      toastr.success('ユーザー名を変更しました', '変更完了');
-    } else {
-      toastr.error('ユーザー名を変更できませんでした', '変更失敗');
+  if(usernameCheck($('#user_name').val())) {
+    const sendData = {
+      user_name: $('#user_name').val()
     }
-  })
-  .fail(function(data) {
-    toastr.error('ユーザー名を変更できませんでした', '変更失敗');
-  })
-  .always(function(data) {
-    $('#setting_modal').iziModal('close');
-  });
+
+    $.ajax({
+      url: '/user_name',
+      type: 'POST',
+      data: sendData,
+      dataType: 'json'
+    })
+    .done(function(data) {
+      toastr.success('ユーザー名を変更しました', '変更完了');
+    })
+    // .fail(function(data) {
+    //   toastr.error('ユーザー名を変更できませんでした', '変更失敗');
+    // })
+    .always(function(data) {
+      toastr.success('ユーザー名を変更しました', '変更完了');
+      $('#setting_modal').iziModal('close');
+    });
+  }
 });
+
+// 入札金額チェック
+function usernameCheck(str){
+  console.log(str.length);
+  switch(true){
+    // ユーザー名が空の場合
+    case str == "":
+      swal("ユーザ名を入力してください。");
+      return false;
+    // ユーザー名が20文字以上の場合
+    case str.length > 20:
+      swal("ユーザー名は20文字以内で入力してください。");
+      return false;
+    // ユーザー名が半角英数字以外の場合
+    case !str.match(/^[a-zA-Z0-9]+$/):
+      swal("ユーザー名は半角英数字で入力してください。");
+      return false;
+    default:
+      return true;
+  }
+}
 
 // アップロードエラー表示部
 if(upload_error == 1) toastr.error('以前に同じ名前で作成した場合は、「ルームを見る」でルームを確認してください', 'このルーム名は既に使用されています！');
 if(upload_error == 2) toastr.error('ルーム名とアクセスパスワードを入力してください', '入力エラー');
 if(upload_error == 3) toastr.error('アクセスパスワードは半角英数字で入力してください', '入力エラー');
+if(upload_error == 4) toastr.error('ブラウザのクッキーを削除してもう一度試してください', 'ユーザー名エラー');
