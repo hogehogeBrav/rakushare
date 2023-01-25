@@ -82,7 +82,6 @@ $(document).on('click', '#user_name_button', function(event) {
       toastr.error('ユーザー名を変更できませんでした', '変更失敗');
     })
     .always(function(data) {
-      // toastr.success('ユーザー名を変更しました', '変更完了');
       $('#setting_modal').iziModal('close');
     });
   }

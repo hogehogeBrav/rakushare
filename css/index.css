@@ -11,13 +11,12 @@ main {
 
 #top_logo {
   margin: 0 auto;
-  height: 35vh;
+  height: 35svh;
   width: 85%;
   background-image: url(/site_images/logo_transparent.png);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  margin-bottom: 10vh;
 }
 
 #button_area {
@@ -27,10 +26,16 @@ main {
   width: 80%;
 }
 
-button#upload {
+#button_area2 {
+  margin: 3svh auto 2svh auto;
+  text-align: center;
+  width: 80%;
+}
+
+button#upload, button#download, button#room {
   text-align: center;
   width: 45%;
-  height: 70px;
+  height: 60px;
   display: inline-block;
   outline: none;
   cursor: pointer;
@@ -41,33 +46,48 @@ button#upload {
   color: #000021;
   background: #1de9b6;
   line-height: 1.15;
+  font-size: 15px;
 }
 
-button#upload:hover {
+button#upload:hover, button#download:hover, button#room:hover {
   transition: all 0.1s ease;
   box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
 }
 
 button#download {
-  text-align: center;
-  width: 45%;
-  height: 70px;
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 12px 6px;
-  border: 0;
   color: #fff;
   background: #ff5000;
-  line-height: 1.15;
-  font-size: 16px;
 }
 
-button#download:hover {
-  transition: all 0.1s ease;
-  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+button#room {
+  width: 60%;
+  color: #fff;
+  background: #1b2538;
+}
+
+#info_area {
+  margin: 0 auto;
+  height: calc(65svh - 140px - 3svh - 2svh - 12svh);
+  width: 80%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: solid 2px #9d9d9d;
+  border-radius: 15px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+#info_area #info_title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+#info_area #info_content {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+#info_area p {
+  margin-bottom: 8px;
 }
 
 #upload_modal form {
@@ -231,20 +251,27 @@ footer #footer_button #settings p {
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
   }
   #button_area {
     width: 60%;
   }
-  button#upload {
+  #button_area2 {
+    margin: 4vh auto 2vh auto;
+    text-align: center;
+    width: 80%;
+  }
+  button#upload, button#download, button#room {
     width: 20vw;
     height: 100px;
     font-size: 22px;
   }
-  button#download {
-    width: 20vw;
-    height: 100px;
-    font-size: 22px;
+  #info_area {
+    border-radius: 3px;
+    width: 40%;
+  }
+  #info_area p {
+    font-size: 18px;
   }
   footer {
     width: 65%;
