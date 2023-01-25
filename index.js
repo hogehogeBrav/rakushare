@@ -5,10 +5,11 @@ const express = require('express');
 const app = express();
 const http_socket = require('http').Server(app);
 const io_socket = require('socket.io')(http_socket);
-const passport = require('passport');
+// const passport = require('passport');
 const mysql = require('mysql2');
 const aws = require('aws-sdk');
 const bcrypt = require('bcrypt');
+const cookie = require('cookie-parser');
 const fs = require('fs');
 
 app.set('view engine', 'ejs');
@@ -53,12 +54,35 @@ app.use(express.static(__dirname + "/js" , {index: false}));
 app.use(express.static(__dirname + "/css" , {index: false}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookie());
 
 // ホーム画面
 app.get('/', (req, res) => {
-  res.render('index.ejs', {
-    upload_error: 0,
-  });
+  // 初回アクセス時
+  if (req.cookies.name === undefined) {
+    let gen_name = Math.random().toString(36).slice(-8);
+    // DBに登録されているユーザー名を取得
+    connection.query('SELECT * FROM users WHERE name = "' + gen_name + '";', function (error, results, fields) {
+      if (error) throw error;
+      const count = results.length;
+      console.log(count);
+      // ユーザー名が登録されていない
+      if (count == 0) {
+        // ユーザー名をDBに保存
+        connection.query('INSERT INTO users (name) VALUES ("' + gen_name + '");', function (error, results, fields) {
+          if (error) throw error;
+          console.log('The solution is: ', results);
+        });
+        // ユーザー名をクッキーに保存
+        // 有効期限は1週間
+        res.cookie('name', gen_name, { maxAge: 604800000, httpOnly: true });
+        res.render("index", { user_name: gen_name, upload_error: 0 });
+      }
+    });
+  } else {
+    res.cookie('name', req.cookies.name, { maxAge: 604800000, httpOnly: true });
+    res.render("index", { user_name: req.cookies.name, upload_error: 0 });
+  }
 });
 
 app.post('/upload', (req, res) => {
@@ -68,11 +92,13 @@ app.post('/upload', (req, res) => {
   if(req.body.folder_name == "" || req.body.passkey == ""){
     chkflg = false;
     res.render('index.ejs', {
+      user_name: req.cookies.name,
       upload_error: 2,
     });
   } else if(check(req.body.passkey)){
     chkflg = false;
     res.render('index.ejs', {
+      user_name: req.cookies.name,
       upload_error: 3,
     });
   }
@@ -93,6 +119,7 @@ app.post('/upload', (req, res) => {
       // フォルダ名重複
       if (count > 0) {
         res.render('index.ejs', {
+          user_name: req.cookies.name,
           upload_error: 1,
         });
       } else {
@@ -158,6 +185,19 @@ io_socket.on('connection', function(socket){
 });
 
 // 関数群
+function usernameCheck(str) {
+  connection.query('SELECT * FROM users WHERE name = "' + str + '";', function (error, results, fields) {
+    if (error) throw error;
+    const count = results.length;
+    // ユーザー名が登録されていない
+    if (count == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+
 function check(str) {
   // 半角英数字チェック
   if (str.match(/[^A-Za-z0-9]+/)) {

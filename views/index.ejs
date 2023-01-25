@@ -71,11 +71,14 @@
 
     <div id="setting_modal">
       <div id="setting_modal_design">
-        <p id="folder_name">ルーム名の設定</p>
-        <div class="cp_iptxt">
-          <label class="ef">
-          <input type="text" name="folder_name" required>
-          </label>
+        <p>ユーザ名の設定</p>
+        <div id="folder_name">
+          <div class="cp_iptxt">
+            <label class="ef">
+            <input type="text" name="user_name" value="<%= user_name %> " required>
+            </label>
+          </div>
+          <button id="user_name_button">変更</button>
         </div>
       </div>
     </div>
@@ -83,6 +86,7 @@
   </footer>
 </body>
 <script>
+  let user_name = '<%= user_name %>';
   let upload_error = '<%= upload_error %>';
 </script>
 <script src="/index.js"></script>

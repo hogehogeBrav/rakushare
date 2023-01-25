@@ -62,6 +62,32 @@ $('#info_modal').iziModal({
   radius: 10,
 });
 
+// ユーザー名変更
+$(document).on('click', '#user_name_button', function(event) {
+  const sendData = {
+    username: $('#user_name').val()
+  }
+
+  $.ajax({
+    url: '/user_name',
+    type: 'POST',
+    data: sendData,
+  })
+  .done(function(data) {
+    if(data == 1) {
+      toastr.success('ユーザー名を変更しました', '変更完了');
+    } else {
+      toastr.error('ユーザー名を変更できませんでした', '変更失敗');
+    }
+  })
+  .fail(function(data) {
+    toastr.error('ユーザー名を変更できませんでした', '変更失敗');
+  })
+  .always(function(data) {
+    $('#setting_modal').iziModal('close');
+  });
+});
+
 // アップロードエラー表示部
 if(upload_error == 1) toastr.error('以前に同じ名前で作成した場合は、「ルームを見る」でルームを確認してください', 'このルーム名は既に使用されています！');
 if(upload_error == 2) toastr.error('ルーム名とアクセスパスワードを入力してください', '入力エラー');
