@@ -73,16 +73,16 @@ $(document).on('click', '#user_name_button', function(event) {
       url: '/user_name',
       type: 'POST',
       data: sendData,
-      dataType: 'json'
+      dataType: 'text'
     })
     .done(function(data) {
       toastr.success('ユーザー名を変更しました', '変更完了');
     })
-    // .fail(function(data) {
-    //   toastr.error('ユーザー名を変更できませんでした', '変更失敗');
-    // })
+    .fail(function(data) {
+      toastr.error('ユーザー名を変更できませんでした', '変更失敗');
+    })
     .always(function(data) {
-      toastr.success('ユーザー名を変更しました', '変更完了');
+      // toastr.success('ユーザー名を変更しました', '変更完了');
       $('#setting_modal').iziModal('close');
     });
   }
