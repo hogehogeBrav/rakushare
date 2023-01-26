@@ -1,0 +1,92 @@
+body {
+  font-family: "M PLUS 1p";
+  background-image: url(/site_images/kumosora1.png);
+  background-size: cover;
+  height: 100svh;
+}
+
+header {
+  height: 10svh;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+header #header_img {
+  height: 100%;
+  background-image: url(/site_images/logo_transparent_header.png);
+  background-size: 14svh;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#head_text {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  height: 5svh;
+  line-height: 5svh;
+  margin-bottom: 4svh;
+  padding: 0;
+  background-color: rgba(245, 245, 245, 0.8156862745);
+}
+
+#upload_area {
+  margin: 0 auto;
+  width: 90vw;
+}
+#upload_area .dropzone {
+  border-radius: 20px;
+  padding: 10px;
+}
+#upload_area .dropzone .dz-preview {
+  width: 100px;
+  margin: 10px;
+}
+#upload_area .dropzone .dz-preview .dz-image {
+  width: 100px;
+  height: 100px;
+}
+
+#button_area {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 3svh;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+button#back, button#upload {
+  text-align: center;
+  width: 45%;
+  height: 60px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 6px;
+  border: 0;
+  color: #000021;
+  background: #1de9b6;
+  line-height: 1.15;
+  font-size: 15px;
+}
+
+button#back:hover, button#upload:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+}
+
+button#back {
+  color: #fff;
+  background: #ff5000;
+}
+
+/* PC */
+@media screen and (min-width: 960px) {
+  #upload_area {
+    width: 50vw;
+  }
+}/*# sourceMappingURL=update.css.map */
