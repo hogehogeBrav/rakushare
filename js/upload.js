@@ -1,5 +1,5 @@
 var myDropzone = new Dropzone("div#awesome", { 
-  url: "/upload?folder_name=<%= folder_name %>",
+  url: "/upload?folder_name=" + folder_name,
   method: "put",
   maxFiles: 6,
   dictMaxFilesExceeded: "ファイルは6ファイルまで追加が可能です。",

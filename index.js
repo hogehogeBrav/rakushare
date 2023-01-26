@@ -89,33 +89,33 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload',(req, res) => {
-  // connection.query('SELECT * FROM users WHERE name = "' + req.cookies.name + '";',
-  //   (error, results, fields) => {
-  //   if (error) throw error;
-  //   const count = results.length;
-  //   // ユーザー名が登録されていない
-  //   if (count == 0) {
-  //     res.render("index", {
-  //       user_name: req.cookies.name,
-  //       upload_error: 4
-  //     });
-  //   } else {
+  connection.query('SELECT * FROM users WHERE name = "' + req.cookies.name + '";',
+    (error, results, fields) => {
+    if (error) throw error;
+    const count = results.length;
+    // ユーザー名が登録されていない
+    if (count == 0) {
+      res.render("index", {
+        user_name: req.cookies.name,
+        upload_error: 4
+      });
+    } else {
       let chkflg = true;
       // 入力値チェック
-      // if(req.body.folder_name == "" || req.body.passkey == ""){
-      //   chkflg = false;
-      //   res.render('index.ejs', {
-      //     user_name: req.cookies.name,
-      //     upload_error: 2,
-      //   });
-      // } else if(check(req.body.passkey)){
-      //   chkflg = false;
-      //   res.render('index.ejs', {
-      //     user_name: req.cookies.name,
-      //     upload_error: 3,
-      //   });
-      // }
-      // console.log(req.body);
+      if(req.body.folder_name == "" || req.body.passkey == ""){
+        chkflg = false;
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          upload_error: 2,
+        });
+      } else if(check(req.body.passkey)){
+        chkflg = false;
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          upload_error: 3,
+        });
+      }
+      console.log(req.body);
     
       // 入力チェックOK
       if(chkflg){
@@ -131,31 +131,31 @@ app.post('/upload',(req, res) => {
           const count = results.length;
           console.log(count);
           // フォルダ名重複
-          // if (count > 0) {
-          //   res.render('index.ejs', {
-          //     user_name: req.cookies.name,
-          //     upload_error: 1,
-          //   });
-          // } else {
+          if (count > 0) {
+            res.render('index.ejs', {
+              user_name: req.cookies.name,
+              upload_error: 1,
+            });
+          } else {
             // DB 登録
-            // connection.query(
-            //   `INSERT INTO folder (user, name, passkey, state) 
-            //   VALUES ((SELECT id FROM users WHERE name = ?), ?, ?, ?)`,
-            //   [req.cookies.name ,req.body.folder_name, hash, 0], function (error, results, fields) {
-            //   if (error) throw error;
-            //   console.log('The solution is: ', results);
-            // });
+            connection.query(
+              `INSERT INTO folder (user, name, passkey, state) 
+              VALUES ((SELECT id FROM users WHERE name = ?), ?, ?, ?)`,
+              [req.cookies.name ,req.body.folder_name, hash, 0], function (error, results, fields) {
+              if (error) throw error;
+              console.log('The solution is: ', results);
+            });
     
             console.log(hash);
             res.render('upload.ejs', {
               folder_name: req.body.folder_name,
             });
-          // }
+          }
         });
       }
     }
-);
-// });
+  });
+});
 
 // ファイルアップロード
 const multer = require('multer');
@@ -163,18 +163,18 @@ const multerS3 = require('multer-s3');
 
 // multer-s3の公式を参照（下記）
 const upload = multer({
-  // storage: multerS3({
-  //   s3: s3,
-  //   ACL: 'public-read',
-  //   bucket: 'rakushare',
-  //   metadata: function (req, file, cb) {
-  //     cb(null, {fieldName: file.fieldname});
-  //   },
-  //   key: function (req, file, cb) {
-  //     console.log(req);
-  //     cb(null, "share_folder/" + req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
-  //   },
-  // })
+  storage: multerS3({
+    s3: s3,
+    ACL: 'public-read',
+    bucket: 'rakushare',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      console.log(req);
+      cb(null, "share_folder/" + req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
+    },
+  })
 });
 
 // Create images
