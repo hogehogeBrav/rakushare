@@ -25,5 +25,10 @@ var myDropzone = new Dropzone("div#awesome", {
   swal("ファイルは6ファイルまで追加が可能です。");
 });;
 
+// indexへ戻る
+$("#back").on("click", function(){
+  location.href = "/";
+});
+
 // スクロール無効
 $('body').css('overflow', 'hidden');

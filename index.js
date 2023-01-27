@@ -130,7 +130,7 @@ app.post('/upload',(req, res) => {
           if (error) throw error;
           const count = results.length;
           console.log(count);
-          // フォルダ名重複
+        //   // フォルダ名重複
           if (count > 0) {
             res.render('index.ejs', {
               user_name: req.cookies.name,
@@ -145,7 +145,6 @@ app.post('/upload',(req, res) => {
               if (error) throw error;
               console.log('The solution is: ', results);
             });
-    
             console.log(hash);
             res.render('upload.ejs', {
               folder_name: req.body.folder_name,

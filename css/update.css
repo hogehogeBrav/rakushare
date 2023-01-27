@@ -86,7 +86,21 @@ button#back {
 
 /* PC */
 @media screen and (min-width: 960px) {
+  #head_text {
+    font-size: 26px;
+    height: 8svh;
+    line-height: 8svh;
+  }
   #upload_area {
     width: 50vw;
+  }
+  #button_area {
+    margin-bottom: 10svh;
+    width: 40vw;
+  }
+  button#back, button#upload {
+    width: 35%;
+    height: 90px;
+    font-size: 22px;
   }
 }/*# sourceMappingURL=update.css.map */
