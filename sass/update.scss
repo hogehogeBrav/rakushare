@@ -7,6 +7,7 @@ body{
 }
 
 header{
+  display: none;
   height: 10svh;
   width: 100vw;
   background-color: rgba(255, 255, 255, 0.9);
@@ -36,13 +37,26 @@ header{
   // background-color: rgba(255, 255, 255, 0.8);
   .dropzone{
     border-radius: 20px;
-    padding: 10px;
+    padding: 4vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .dz-message{
+      margin: 0 auto;
+      button{
+        height: 100%;
+      }
+    }
     .dz-preview{
-      width: 100px;
-      margin: 10px;
+      width: 30vw;
+      height: 30vw;
       .dz-image{
-        width: 100px;
-        height: 100px;
+        width: 100%;
+        height: 100%;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
@@ -87,7 +101,11 @@ button#back{
 }
 
 /* PC */
-@media screen and (min-width:960px){
+@media screen and (min-width:520px){
+  header{
+    display: block;
+  }
+
   #head_text{
     font-size: 26px;
     height: 8svh;
@@ -95,7 +113,38 @@ button#back{
   }
 
   #upload_area{
+    margin: 0 auto;
     width: 50vw;
+    // background-color: rgba(255, 255, 255, 0.8);
+    .dropzone{
+      border-radius: 20px;
+      padding: 4vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: normal;
+      .dz-message{
+        font-size: 20px;
+        margin: 0 auto;
+        button{
+          height: 100%;
+        }
+      }
+      .dz-preview{
+        width: 11.8vw;
+        height: 11.8vw;
+        .dz-image{
+          width: 100%;
+          height: 100%;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .dz-remove{
+        font-size: 20px;
+      }
+    }
   }
 
   #button_area{

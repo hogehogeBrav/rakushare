@@ -7,8 +7,8 @@ var myDropzone = new Dropzone("div#awesome", {
   addRemoveLinks: true,
   dictCancelUpload:'キャンセル' ,
   dictRemoveFile: "削除する",
-  thumbnailWidth: 100,
-  thumbnailHeight: 100,
+  // thumbnailWidth: 100,
+  // thumbnailHeight: 100,
 }).on("success", function(file, serverResponse){
   // // ファイルを受け取るphp側では、アップロードされたファイルの保存名を返すようにしておく
   // // するとserverResponseにファイルの名前が返ってくる。
