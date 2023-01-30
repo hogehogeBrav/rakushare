@@ -6,26 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+  <link rel="stylesheet" href="/destyle.css">
+  <link rel="stylesheet" href="/visuallyhidden.css">
+  <link rel="stylesheet" href="/update.css">
+  <link rel="stylesheet" href="/iziModal/iziModal.css">
+  <link rel="stylesheet" href="/toastr/toastr.css">
+  <title>RAKU-SHARE | Home</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="/iziModal/iziModal.js"></script>
+  <script src="/toastr/toastr.min.js"></script>
   <title>ファイルアップロード</title>
 </head>
 <body>
-  <h1>ファイルアップロード</h1>
-  <h2><%= folder_name %>のルーム</h2>
+  <header>
+    <div id="header_img"></div>
+  </header>
+  <div id="head_text">
+    <h1><%= folder_name %>のルームにアップロード</h1>
+  </div>
   <!-- <form action="/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
     <input type="submit" value="アップロード">
   </form> -->
 
-  <form action="/upload">
-    <div class="dropzone" id="awesome"></div>
-  </form>
+  <div id="upload_area">
+    <form action="/upload">
+      <div class="dropzone" id="awesome"></div>
+    </form>
+  </div>
+  
+  <div id="button_area">
+    <button id="back">最初に戻る</button>
+    <button id="upload">シェアする</button>
+  </div>
 
 </body>
-<script type="text/javascript">
-  var myDropzone = new Dropzone("div#awesome", { 
-    url: "/upload?folder_name=<%= folder_name %>",
-    method: "put",
-    dictDefaultMessage: "ここにファイルをドロップしてください",
-  });
+<script>
+  let folder_name = "<%= folder_name %>";
 </script>
+<script src="/upload.js"></script>
 </html>
