@@ -101,7 +101,7 @@ button#back{
 }
 
 /* PC */
-@media screen and (min-width:520px){
+@media screen and (min-width:960px){
   header{
     display: block;
   }
@@ -118,7 +118,7 @@ button#back{
     // background-color: rgba(255, 255, 255, 0.8);
     .dropzone{
       border-radius: 20px;
-      padding: 4vw;
+      padding: 2vw 4vw;
       display: flex;
       flex-wrap: wrap;
       justify-content: normal;
@@ -130,8 +130,9 @@ button#back{
         }
       }
       .dz-preview{
-        width: 11.8vw;
-        height: 11.8vw;
+        margin: 20px auto;
+        width: 11vw;
+        height: 11vw;
         .dz-image{
           width: 100%;
           height: 100%;

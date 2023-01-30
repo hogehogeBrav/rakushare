@@ -99,7 +99,7 @@ button#back {
 }
 
 /* PC */
-@media screen and (min-width: 520px) {
+@media screen and (min-width: 960px) {
   header {
     display: block;
   }
@@ -114,7 +114,7 @@ button#back {
   }
   #upload_area .dropzone {
     border-radius: 20px;
-    padding: 4vw;
+    padding: 2vw 4vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: normal;
@@ -127,8 +127,9 @@ button#back {
     height: 100%;
   }
   #upload_area .dropzone .dz-preview {
-    width: 11.8vw;
-    height: 11.8vw;
+    margin: 20px auto;
+    width: 11vw;
+    height: 11vw;
   }
   #upload_area .dropzone .dz-preview .dz-image {
     width: 100%;
