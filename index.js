@@ -11,6 +11,7 @@ const mysql = require('mysql2');
 const aws = require('aws-sdk');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
+const QRCode = require('qrcode');
 const fs = require('fs');
 
 app.set('view engine', 'ejs');
@@ -91,31 +92,31 @@ app.get('/', (req, res) => {
 app.post('/upload',(req, res) => {
   connection.query('SELECT * FROM users WHERE user_name = "' + req.cookies.name + '";',
     (error, results, fields) => {
-    if (error) throw error;
-    const count = results.length;
-    // ユーザー名が登録されていない
-    if (count == 0) {
-      res.render("index", {
-        user_name: req.cookies.name,
-        upload_error: 4
-      });
-    } else {
+    // if (error) throw error;
+    // const count = results.length;
+    // // ユーザー名が登録されていない
+    // if (count == 0) {
+    //   res.render("index", {
+    //     user_name: req.cookies.name,
+    //     upload_error: 4
+    //   });
+    // } else {
       let chkflg = true;
-      // 入力値チェック
-      if(req.body.folder_name == "" || req.body.passkey == ""){
-        chkflg = false;
-        res.render('index.ejs', {
-          user_name: req.cookies.name,
-          upload_error: 2,
-        });
-      } else if(check(req.body.passkey)){
-        chkflg = false;
-        res.render('index.ejs', {
-          user_name: req.cookies.name,
-          upload_error: 3,
-        });
-      }
-      console.log(req.body);
+      // // 入力値チェック
+      // if(req.body.folder_name == "" || req.body.passkey == ""){
+      //   chkflg = false;
+      //   res.render('index.ejs', {
+      //     user_name: req.cookies.name,
+      //     upload_error: 2,
+      //   });
+      // } else if(check(req.body.passkey)){
+      //   chkflg = false;
+      //   res.render('index.ejs', {
+      //     user_name: req.cookies.name,
+      //     upload_error: 3,
+      //   });
+      // }
+      // console.log(req.body);
     
       // 入力チェックOK
       if(chkflg){
@@ -124,42 +125,53 @@ app.post('/upload',(req, res) => {
         console.log(bcrypt.compareSync(req.body.passkey, hash));
     
         // DB重複チェック
-        connection.query(`SELECT * 
-                          FROM folder 
-                          INNER JOIN users
-                          ON folder.user = users.ID
-                          WHERE folder_name = ? AND user_name = ?;`,
-          [req.body.folder_name, req.cookies.name], function (error, results, fields) {
-          if (error) throw error;
-          const count = results.length;
-          console.log(count);
+        // connection.query(`SELECT * 
+        //                   FROM folder 
+        //                   INNER JOIN users
+        //                   ON folder.user = users.ID
+        //                   WHERE folder_name = ? AND user_name = ?;`,
+        //   [req.body.folder_name, req.cookies.name], function (error, results, fields) {
+        //   if (error) throw error;
+        //   const count = results.length;
+        //   console.log(count);
           // フォルダ名重複
-          if (count > 0) {
-            res.render('index.ejs', {
-              user_name: req.cookies.name,
-              upload_error: 1,
-            });
-          } else {
+          // if (count > 0) {
+          //   res.render('index.ejs', {
+          //     user_name: req.cookies.name,
+          //     upload_error: 1,
+          //   });
+          // } else {
             // DB 登録
-            connection.query(
-              `INSERT INTO folder (user, folder_name, passkey, state) 
-              VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?)`,
-              [req.cookies.name ,req.body.folder_name, hash, 0],
-              (error, results, fields) => {
-                if (error) throw error;
-                console.log('The solution is: ', results);
+            // connection.query(
+            //   `INSERT INTO folder (user, folder_name, passkey, state) 
+            //   VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?)`,
+            //   [req.cookies.name ,req.body.folder_name, hash, 0],
+            //   (error, results, fields) => {
+            //     if (error) throw error;
+            //     console.log('The solution is: ', results);
+            //   }
+            // );
+
+            const share_url = '/share/' + req.cookies.name + '/' + req.body.folder_name + '?k=' + hash;
+
+            QRCode.toDataURL(share_url, (error, url) => {
+              if (error) {
+                console.log(error);
+                return;
               }
-            );
-            // console.log(hash);
-            res.render('upload.ejs', {
-              folder_name: req.body.folder_name,
+              res.render('upload.ejs', {
+                user_name: req.cookies.name,
+                share_url: share_url,
+                qr_url: url,
+                folder_name: req.body.folder_name,
+              });
             });
           }
         });
       }
-    }
-  });
-});
+    // }
+  );
+// });
 
 // ファイルアップロード
 const multer = require('multer');

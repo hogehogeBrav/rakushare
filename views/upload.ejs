@@ -39,7 +39,33 @@
   
   <div id="button_area">
     <button id="back">最初に戻る</button>
-    <button id="upload">シェアする</button>
+    <button id="share">シェアする</button>
+  </div>
+
+  <div id="share_modal">
+    <div id="share_modal_content">
+      <h2 class="visuallyhidden">シェアする</h2> 
+      <h3>共有リンク</h3>
+      <div class="cp_iptxt">
+        <label class="ef">
+        <input type="text" id="share_url" value="<%= share_url %>" readonly>
+        </label>
+      </div>
+      <button type="button" id="copy-url"><span id="cAction">URLをコピー</span></button>
+      <h3>QRコード</h3>
+      <button type="button" id="show-qr-code">QRコードを表示</button>
+    </div>
+  </div>
+
+  <div>
+    <div id="qr_code_modal">
+      <div id="qr_code_modal_content">
+        <h2 class="visuallyhidden">QRコード</h2>
+        <p class="message">このQRコードをシェアしたい人に見せてください！</p>
+        <p class="room_name">Room: <%= folder_name %></p>
+        <img class="qr_code" src="<%= qr_url %>">
+      </div>
+    </div>
   </div>
 
 </body>
