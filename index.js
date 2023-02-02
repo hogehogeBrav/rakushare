@@ -92,31 +92,31 @@ app.get('/', (req, res) => {
 app.post('/upload',(req, res) => {
   connection.query('SELECT * FROM users WHERE user_name = "' + req.cookies.name + '";',
     (error, results, fields) => {
-    // if (error) throw error;
-    // const count = results.length;
-    // // ユーザー名が登録されていない
-    // if (count == 0) {
-    //   res.render("index", {
-    //     user_name: req.cookies.name,
-    //     upload_error: 4
-    //   });
-    // } else {
+    if (error) throw error;
+    const count = results.length;
+    // ユーザー名が登録されていない
+    if (count == 0) {
+      res.render("index", {
+        user_name: req.cookies.name,
+        upload_error: 4
+      });
+    } else {
       let chkflg = true;
       // // 入力値チェック
-      // if(req.body.folder_name == "" || req.body.passkey == ""){
-      //   chkflg = false;
-      //   res.render('index.ejs', {
-      //     user_name: req.cookies.name,
-      //     upload_error: 2,
-      //   });
-      // } else if(check(req.body.passkey)){
-      //   chkflg = false;
-      //   res.render('index.ejs', {
-      //     user_name: req.cookies.name,
-      //     upload_error: 3,
-      //   });
-      // }
-      // console.log(req.body);
+      if(req.body.folder_name == "" || req.body.passkey == ""){
+        chkflg = false;
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          upload_error: 2,
+        });
+      } else if(check(req.body.passkey)){
+        chkflg = false;
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          upload_error: 3,
+        });
+      }
+      console.log(req.body);
     
       // 入力チェックOK
       if(chkflg){
@@ -125,32 +125,32 @@ app.post('/upload',(req, res) => {
         console.log(bcrypt.compareSync(req.body.passkey, hash));
     
         // DB重複チェック
-        // connection.query(`SELECT * 
-        //                   FROM folder 
-        //                   INNER JOIN users
-        //                   ON folder.user = users.ID
-        //                   WHERE folder_name = ? AND user_name = ?;`,
-        //   [req.body.folder_name, req.cookies.name], function (error, results, fields) {
-        //   if (error) throw error;
-        //   const count = results.length;
-        //   console.log(count);
+        connection.query(`SELECT * 
+                          FROM folder 
+                          INNER JOIN users
+                          ON folder.user = users.ID
+                          WHERE folder_name = ? AND user_name = ?;`,
+          [req.body.folder_name, req.cookies.name], function (error, results, fields) {
+          if (error) throw error;
+          const count = results.length;
+          console.log(count);
           // フォルダ名重複
-          // if (count > 0) {
-          //   res.render('index.ejs', {
-          //     user_name: req.cookies.name,
-          //     upload_error: 1,
-          //   });
-          // } else {
+          if (count > 0) {
+            res.render('index.ejs', {
+              user_name: req.cookies.name,
+              upload_error: 1,
+            });
+          } else {
             // DB 登録
-            // connection.query(
-            //   `INSERT INTO folder (user, folder_name, passkey, state) 
-            //   VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?)`,
-            //   [req.cookies.name ,req.body.folder_name, hash, 0],
-            //   (error, results, fields) => {
-            //     if (error) throw error;
-            //     console.log('The solution is: ', results);
-            //   }
-            // );
+            connection.query(
+              `INSERT INTO folder (user, folder_name, passkey, state) 
+              VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?)`,
+              [req.cookies.name ,req.body.folder_name, hash, 0],
+              (error, results, fields) => {
+                if (error) throw error;
+                console.log('The solution is: ', results);
+              }
+            );
 
             const share_url = '/share/' + req.cookies.name + '/' + req.body.folder_name + '?k=' + hash;
 
@@ -169,9 +169,9 @@ app.post('/upload',(req, res) => {
           }
         });
       }
-    // }
-  );
-// });
+    }
+  });
+});
 
 // ファイルアップロード
 const multer = require('multer');
@@ -206,6 +206,20 @@ app.put('/upload', upload.single('file'), (req, res, next) => {
     // res.render('image.ejs');
     res.send('ok');
   }
+});
+
+app.delete('/upload', (req, res, next) => {
+  // S3からファイル削除
+  s3.deleteObject({
+    Bucket: 'rakushare',
+    Key: "share_folder/" + req.cookies.name + "/" + req.body.folder_name + "/" + req.body.file_name,
+  }, function(err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(data);
+    }
+  });
 });
 
 // ユーザ名変更

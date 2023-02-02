@@ -1,3 +1,21 @@
+//ドキュメントロード時に、toastr のオプションを設定する
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-center",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "1000000000",
+  "extendedTimeOut": "1000000000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "tapToDismiss": false
+}
+
 var myDropzone = new Dropzone("div#awesome", { 
   url: "/upload?folder_name=" + folder_name,
   method: "put",
@@ -15,11 +33,28 @@ var myDropzone = new Dropzone("div#awesome", {
   // console.log(serverResponse); // デバッグ用
   // file.previewElement.querySelector("img").alt = serverResponse; // imgタグのalt属性にサーバから受け取ったファイル名を持たせておく
 }).on("removedfile", function(file){
-  // 削除ボタンが押された時
-  // console.log( file.previewElement.querySelector("img").alt ); // 削除対象のファイル名が取得出来る
-  // $.ajax(...);//あとは非同期でファイル名を指定して削除するサーバサイドプログラムへリクエスト
-}).on("maxfilesexceeded", function(file)
-{
+  console.log(file.name); // 削除対象のファイル名が取得
+  $.ajax({
+    url: "/upload",
+    type: "DELETE",
+    data: {
+      file_name: file.name,
+      folder_name: folder_name
+    },
+    dataType: "text"
+  })
+  .done(function(data) {
+    console.log("success");
+  })
+  .fail(function(data) {
+    console.log("error");
+  })
+  .always(function(data) {
+    console.log("complete");
+  });
+  // トースト通知
+  toastr.success('ファイルを削除しました', '削除完了');
+}).on("maxfilesexceeded", function(file){
   // ファイル数が上限に達した時
   this.removeFile(file);
   swal("ファイルは6ファイルまで追加が可能です。");
@@ -61,7 +96,6 @@ $('#qr_code_modal').iziModal({
   headerColor: "#0f9574",
   radius: 10,
 });
-
 
 // スクロール無効
 $('body').css('overflow', 'hidden');
