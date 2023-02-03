@@ -222,6 +222,19 @@ app.delete('/upload', (req, res, next) => {
   });
 });
 
+// ルームリスト（フォルダ一覧）
+app.post('/room_list', (req, res) => {
+  connection.query(`SELECT * folder WHERE user = (SELECT id FROM users WHERE user_name = ?);`,
+    [req.cookies.name], function (error, results, fields) {
+    if (error) throw error;
+    console.log(results);
+    res.render('room_list.ejs', {
+      user_name: req.cookies.name,
+      room_list: results,
+    });
+  });
+});
+
 // ユーザ名変更
 app.post('/user_name', (req, res) => {
   // ユーザー名入力値チェック
