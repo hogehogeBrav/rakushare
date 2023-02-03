@@ -80,12 +80,12 @@ app.get('/', (req, res) => {
         // ユーザー名をクッキーに保存
         // 有効期限は1週間
         res.cookie('name', gen_name, { maxAge: 604800000, httpOnly: true });
-        res.render("index", { user_name: gen_name, upload_error: 0 });
+        res.render("index", { user_name: gen_name, toast: 0 });
       }
     });
   } else {
     res.cookie('name', req.cookies.name, { maxAge: 604800000, httpOnly: true });
-    res.render("index", { user_name: req.cookies.name, upload_error: 0 });
+    res.render("index", { user_name: req.cookies.name, toast: 0 });
   }
 });
 
@@ -98,7 +98,7 @@ app.post('/upload',(req, res) => {
     if (count == 0) {
       res.render("index", {
         user_name: req.cookies.name,
-        upload_error: 4
+        torst: 4
       });
     } else {
       let chkflg = true;
@@ -107,13 +107,13 @@ app.post('/upload',(req, res) => {
         chkflg = false;
         res.render('index.ejs', {
           user_name: req.cookies.name,
-          upload_error: 2,
+          torst: 2,
         });
       } else if(check(req.body.passkey)){
         chkflg = false;
         res.render('index.ejs', {
           user_name: req.cookies.name,
-          upload_error: 3,
+          toast: 3,
         });
       }
       console.log(req.body);
@@ -138,7 +138,7 @@ app.post('/upload',(req, res) => {
           if (count > 0) {
             res.render('index.ejs', {
               user_name: req.cookies.name,
-              upload_error: 1,
+              toast: 1,
             });
           } else {
             // DB 登録
@@ -224,16 +224,53 @@ app.delete('/upload', (req, res, next) => {
 
 // ユーザ名変更
 app.post('/user_name', (req, res) => {
-  // ユーザー名をDBに保存
-  connection.query('UPDATE users SET user_name = ?, add_date = NOW() WHERE user_name = ?',
-  [req.body.user_name, req.cookies.name],
-  (error, results, fields) => {
+  // ユーザー名入力値チェック
+  if(usernameCheck(req.body.user_name)){
+    if(usernameCheck(req.body.user_name) == 1){
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 5,
+      });
+    } else if(usernameCheck(req.body.user_name) == 2){
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 6,
+      });
+    } else if(usernameCheck(req.body.user_name) == 3){
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 7,
+      });
+    }
+    return;
+  }
+  // ユーザー名重複チェック
+  connection.query(`SELECT * FROM users WHERE user_name = ?;`,
+  [req.body.user_name],
+  function (error, results, fields) {
     if (error) throw error;
-    console.log('The solution is: ', results);
+    const count = results.length;
+    console.log(count);
+    // ユーザー名重複
+    if (count > 0) {
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 8,
+      });
+      return;
+    } else {
+      // ユーザー名をDBに保存
+      connection.query('UPDATE users SET user_name = ?, add_date = NOW() WHERE user_name = ?',
+      [req.body.user_name, req.cookies.name],
+      (error, results, fields) => {
+        if (error) throw error;
+        console.log('The solution is: ', results);
+      });
+      // ユーザー名をクッキーに保存
+      res.cookie('name', req.body.user_name, { maxAge: 604800000, httpOnly: true });
+      res.render("index", { user_name: req.body.user_name, toast: 9 });
+    }
   });
-  // ユーザー名をクッキーに保存
-  res.cookie('name', req.body.user_name, { maxAge: 604800000, httpOnly: true });
-  res.render("index", { user_name: req.body.user_name, upload_error: 0 });
 });
 
 io_socket.on('connection', function(socket){
@@ -277,6 +314,24 @@ function check(str) {
   } else {
       //半角英数字
     return false;
+  }
+}
+
+// ユーザ名チェック
+function usernameCheck(str){
+  console.log(str.length);
+  switch(true){
+    // ユーザー名が空の場合
+    case str == "":
+      return 1;
+    // ユーザー名が20文字以上の場合
+    case str.length > 20:
+      return 2;
+    // ユーザー名が半角英数字以外の場合
+    case !str.match(/^[a-zA-Z0-9]+$/):
+      return 3;
+    default:
+      return 0;
   }
 }
 

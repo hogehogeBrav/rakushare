@@ -89,13 +89,25 @@
     <div id="setting_modal">
       <div id="setting_modal_design">
         <p>ユーザ名の設定</p>
-        <div id="folder_name">
-          <div class="cp_iptxt">
-            <label class="ef">
-            <input type="text" id="user_name" value="<%= user_name %>" required>
-            </label>
-          </div>
-          <button id="user_name_button">変更</button>
+        <div id="user_name">
+          <form action="/user_name" method="POST" id="username_form">
+            <div class="cp_iptxt">
+              <label class="ef">
+              <input type="text" id="user_name" name="user_name" value="<%= user_name %>" placeholder="<%= user_name %> " required>
+              </label>
+            </div>
+            <button type="button" id="username_confirm">変更</button>
+            <div id="username_confirm_modal">
+              <div id="username_confirm_modal_design">
+                <p>ユーザ名を変更すると、共有中のファイルにアクセスできなくなります。</p>
+                <p>ユーザ名を変更しますか？</p>
+                <div id="username_confirm_modal_button">
+                  <button type="button" id="username_cancel_button">キャンセル</button>
+                  <button type="submit" id="username_confirm_button">変更する</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -104,7 +116,7 @@
 </body>
 <script>
   let user_name = '<%= user_name %>';
-  let upload_error = '<%= upload_error %>';
+  let toast = '<%= toast %>';
 </script>
 <script src="/index.js"></script>
 </html>
