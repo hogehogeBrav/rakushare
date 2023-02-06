@@ -223,8 +223,8 @@ app.delete('/upload', (req, res, next) => {
 });
 
 // ルームリスト（フォルダ一覧）
-app.post('/room_list', (req, res) => {
-  connection.query(`SELECT * folder WHERE user = (SELECT id FROM users WHERE user_name = ?);`,
+app.get('/room_list', (req, res) => {
+  connection.query(`SELECT * FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?);`,
     [req.cookies.name], function (error, results, fields) {
     if (error) throw error;
     console.log(results);

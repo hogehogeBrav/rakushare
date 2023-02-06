@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+  <link rel="stylesheet" href="/destyle.css">
+  <link rel="stylesheet" href="/visuallyhidden.css">
+  <link rel="stylesheet" href="/room_list.css">
+  <link rel="stylesheet" href="/iziModal/iziModal.css">
+  <link rel="stylesheet" href="/toastr/toastr.css">
+  <title>RAKU-SHARE | 自分のルーム</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="/iziModal/iziModal.js"></script>
+  <script src="/toastr/toastr.min.js"></script>
+</head>
+<body>
+  <header>
+    <div id="header_img"></div>
+  </header>
+  <div id="head_text">
+    <h1><%= user_name %>さんのルーム一覧</h1>
+  </div>
+  <div id="room_list">
+    <% room_list.forEach(function (value, key) { %>
+      <div id="room">
+        <a href="/share/<%= user_name %>/<%= value.folder_name %>?k=<%= value.passkey %>">
+          <h2 class="visuallyhidden"><%= value.folder_name %>のルーム</h2>
+          <p><%= value.folder_name %></p>
+        </a>
+      </div>
+    <% }) %> 
+  </div>
+</body>
+</html>
