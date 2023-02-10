@@ -94,6 +94,8 @@ if(toast == 6) swal("ユーザー名は20文字以内で入力してください
 if(toast == 7) swal("ユーザー名は半角英数字で入力してください。");
 if(toast == 8) swal("ユーザー名は既に使用されています！\n別のユーザー名を試してください。");
 if(toast == 9) toastr.success('ユーザー名を変更しました', '変更完了');
+// フォルダエラー
+if(toast == 10) toastr.error('フォルダが存在しないか、既に削除されています', 'フォルダエラー');
 
 // 設定後モーダル展開
 if(toast > 5 && toast < 9) $("#setting_modal").iziModal('open');

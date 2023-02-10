@@ -182,7 +182,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     ACL: 'public-read',
-    bucket: 'rakushare',
+    bucket: process.env.AWS_BUCKET_NAME,
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
@@ -218,6 +218,68 @@ app.delete('/upload', (req, res, next) => {
       console.log(err);
     } else {
       console.log(data);
+    }
+  });
+});
+
+// ファイル共有リンク
+app.get('/share/:user_name/:folder_name', (req, res) => {
+  connection.query(`SELECT *
+                    FROM folder
+                    INNER JOIN users
+                    ON folder.user = users.ID
+                    WHERE folder_name = ? AND user_name = ?;`,
+    [req.params.folder_name, req.params.user_name], function (error, results, fields) {
+    if (error) throw error;
+    if(results.length > 0){
+      if(req.query.k != results[0].passkey){
+        res.render('index.ejs', {
+          user_name: req.cookies.name,
+          toast: 10,
+        });
+      } else {
+        var params = {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Prefix: "share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/",
+        };
+        s3.listObjects(params, function (err, data) {
+          if (err) console.log(err, err.stack);
+          else {
+            console.log(data);
+            let url = [];
+            let file_name = [];
+            for (let i = 0; i < data.Contents.length; i++) {
+              url.push(s3.getSignedUrl('getObject', {
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: data.Contents[i].Key,
+                Expires: 60 * 60 * 24 * 7,
+              }));
+            }
+
+            // ファイル名を取得
+            for (let i = 0; i < data.Contents.length; i++) {
+              file_name.push(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""));
+            }
+
+            console.log(url);
+
+            res.render('share.ejs', {
+              user_name: req.cookies.name,
+              share_user_name: req.params.user_name,
+              folder_name: req.params.folder_name,
+              passkey: req.query.k,
+              data: data.Contents,
+              url: url,
+              file_name: file_name,
+            });
+          }
+        });
+      }
+    } else {
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 10,
+      });
     }
   });
 });
