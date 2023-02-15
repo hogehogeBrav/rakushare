@@ -37,7 +37,7 @@
     <ul> 
       <% for(var i = 0; i < data.length; i++) { %>
         <li class="share_list">
-          <a href=<%= url[i] %> download>
+          <a href=<%= url[i] %> download=<% file_name[i] %> >
             <div class="share">
               <div class="thumb">
                 <img src=<%= url[i] %>></img>
@@ -51,7 +51,7 @@
   <% } %>
 
   <div id="button_area">
-    <button id="back">最初に戻る</button> 
+    <button id="back">戻る</button> 
   </div>
   
 </body>

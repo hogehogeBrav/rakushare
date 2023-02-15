@@ -31,13 +31,14 @@ header #header_img {
 }
 
 #room_list {
-  height: 80svh;
+  height: 75svh;
   margin: 5svh auto 0 auto;
+  overflow-y: scroll;
 }
-#room_list #room a {
+#room_list .room a {
   margin: 0 auto 3svh auto;
   width: 90vw;
-  height: 30vw;
+  height: 25vw;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 5px 3px 5px 3px rgba(88, 88, 88, 0.064);
@@ -46,8 +47,49 @@ header #header_img {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-#room_list #room a p {
+#room_list .room a p {
   font-size: 18px;
+}
+#room_list .room a .room_delete img {
+  height: 30px;
+}
+
+#button_area {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 3svh;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
+button#back, button#share {
+  text-align: center;
+  width: 45%;
+  height: 60px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 6px;
+  border: 0;
+  color: #000021;
+  background: #1de9b6;
+  line-height: 1.15;
+  font-size: 15px;
+}
+
+button#back:hover, button#share:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+}
+
+button#back {
+  color: #fff;
+  background: #ff5000;
 }
 
 /* PC */

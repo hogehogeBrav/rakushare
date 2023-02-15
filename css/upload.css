@@ -33,9 +33,10 @@ header #header_img {
 #upload_area {
   margin: 0 auto;
   width: 90vw;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 #upload_area .dropzone {
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 4vw;
   display: flex;
   flex-wrap: wrap;

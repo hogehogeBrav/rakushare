@@ -25,15 +25,36 @@
   <div id="head_text">
     <h1><%= user_name %>さんのルーム一覧</h1>
   </div>
-  <div id="room_list">
+  <ul id="room_list">
     <% room_list.forEach(function (value, key) { %>
-      <div id="room">
+      <li class="room <%= value.folder_name %>">
         <a href="/share/<%= user_name %>/<%= value.folder_name %>?k=<%= value.passkey %>">
           <h2 class="visuallyhidden"><%= value.folder_name %>のルーム</h2>
           <p><%= value.folder_name %></p>
+          <button class="room_delete" value="<%= value.folder_name %>">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAABnElEQVRYR+2YvUoEMRSFZ30CwVJs1sJKUMHOYrHRwsq/1tLaJxDfYGs7tfMP0dJCBSsLRbHUxsJexE7U7wqBJWaGZJLA7noDB5bMPSeHk9ndy20UPbQaPeS1ULO5bqsvkh0inXkwCgZKkvpk/xQ85ErS1nUlO0PRCRDDPmuDorZPYWyNy+wLoiOBwuvUbwdygstts9Mo3ASrFMU3nDWwV4PrTbHNLsE89Gb/LbyK4BrqFx+ewQ647tSzzS7z8CDBgakk5LZ2jVi3m33D6DD4EMPdblY8zoILl9kVNvdT3WEinVXzatrJqtnIhDXZyABL6ZqsJksC/+81kIZHfpfrLOk/pA/xWUmSVbOOqEuTDWkRLxHe8rlHR80mey1Prrxqvz229gaeifmWJfmC+R4WW6dmYxMs42uymmxVI7PIw6NcEdXUlcHLsetPYZLN25qiuWgTCN+7zMqejDDHc50cqHtH/ZThuKaIMkE8B2OBwqnLHxGcA69VZuXZIFgATVA2TE5tzujJYO4JnIH3zkP6YkyfK7UoXU02Kr4K8g8nVVUsMXsG0gAAAABJRU5ErkJggg=="/>
+          </button>
         </a>
-      </div>
+      </li>
     <% }) %> 
+    </ul>
+
+  <div id="room_delete_modal">
+    <div id="modal_content">
+      <h2 class="visuallyhidden">ルームを削除しますか？</h2>
+      <p id="delete_folder_name"></p>
+      <p>ルームを削除すると、ルームに保存されているファイルも削除されます。</p>
+      <p>削除しますか？</p>
+      <div id="modal_button_area">
+        <button id="room_delete_cancel">キャンセル</button>
+        <button type="submit" id="room_delete" name="room_delete">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="button_area">
+    <button id="back">戻る</button> 
   </div>
 </body>
+<script src="./room_list.js"></script>
 </html>

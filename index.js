@@ -218,6 +218,7 @@ app.delete('/upload', (req, res, next) => {
       console.log(err);
     } else {
       console.log(data);
+      res.status(200).send();
     }
   });
 });
@@ -293,6 +294,45 @@ app.get('/room_list', (req, res) => {
     res.render('room_list.ejs', {
       user_name: req.cookies.name,
       room_list: results,
+    });
+  });
+});
+
+app.delete('/room_list', (req, res) => {
+  console.log("share_folder/" + req.cookies.name + "/" + req.body.folder_name);
+  connection.query(`DELETE FROM folder WHERE folder_name = ? AND user = (SELECT id FROM users WHERE user_name = ?);`,
+    [req.body.folder_name, req.cookies.name], function (error, results, fields) {
+    if (error) throw error;
+    // S3ファイル削除
+    // フォルダ内のオブジェクトを取得
+    var params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Prefix: "share_folder/" + req.cookies.name + "/" + req.body.folder_name,
+    };
+    s3.listObjects(params, (err, data) => {
+      if (err) throw err;
+
+      // オブジェクトがある場合は削除
+      if (data.Contents.length === 0) {
+        console.log('フォルダは空です');
+        return;
+      }
+
+      // オブジェクトを削除
+      s3.deleteObjects(
+        {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Delete: {
+            Objects: data.Contents.map(({ Key }) => ({ Key })),
+            Quiet: false,
+          },
+        },
+        (err, data) => {
+          if (err) throw err;
+          console.log('フォルダが削除されました');
+          res.status(200).send();
+        }
+      );
     });
   });
 });
