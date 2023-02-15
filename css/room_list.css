@@ -30,6 +30,18 @@ header #header_img {
   background-color: rgba(245, 245, 245, 0.8156862745);
 }
 
+#room_empty {
+  display: block;
+  text-align: center;
+  width: 60%;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto 3svh auto;
+  background-color: #fff;
+  border: solid 1px #aaa;
+  border-radius: 5px;
+}
+
 #room_list {
   height: 75svh;
   margin: 5svh auto 0 auto;

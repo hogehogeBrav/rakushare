@@ -31,6 +31,18 @@ header{
   background-color: #f5f5f5d0;
 }
 
+#room_empty{
+  display: block;
+  text-align: center;
+  width: 60%;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto 3svh auto;
+  background-color: #fff;
+  border: solid 1px #aaa;
+  border-radius: 5px;
+}
+
 #room_list{
   // background-color: #f5f5f5;
   //背景透過
