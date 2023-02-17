@@ -3,18 +3,20 @@ toastr.options = {
   "closeButton": true,
   "debug": false,
   "newestOnTop": false,
-  "progressBar": false,
+  "progressBar": true,
   "positionClass": "toast-bottom-center",
   "preventDuplicates": false,
   "onclick": null,
   "showDuration": "300",
   "hideDuration": "1000",
-  "timeOut": "1000000000",
-  "extendedTimeOut": "1000000000",
+  "timeOut": "5000",
+  "extendedTimeOut": "5000",
   "showEasing": "swing",
   "hideEasing": "linear",
   "tapToDismiss": false
 }
+
+toastr.success('ルームを作成しました！', 'ルーム作成');
 
 var myDropzone = new Dropzone("div#awesome", { 
   url: "/upload?folder_name=" + folder_name,

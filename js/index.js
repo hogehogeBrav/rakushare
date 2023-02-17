@@ -19,6 +19,15 @@ toastr.options = {
   "tapToDismiss": false
 }
 
+// カメラ使用
+var mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia) ? {
+  getUserMedia(c) {
+      return new Promise(((y, n) => {
+          (navigator.mozGetUserMedia || navigator.webkitGetUserMedia).call(navigator, c, y, n);
+      }));
+  }
+} : null);
+
 // アップロードモーダル
 $(document).on('click', '#upload', function(event) {
   event.preventDefault();
@@ -37,6 +46,61 @@ $(document).on('click', '#upload_cancel', function(event) {
 });
 
 // ダウンロードモーダル
+$(document).on('click', '#download', function(event) {
+  event.preventDefault();
+  $('#download_modal').iziModal('open');
+});
+$('#download_modal').iziModal({
+  title: 'みんなからもらう',
+  subtitle: '他の人がシェアしているルームに参加します',
+  headerColor: "#0f9574",
+  radius: 10,
+});
+
+$(document).on('click', '#download_by_qr', function(event) {
+  event.preventDefault();
+  $('#readqr_modal').iziModal('open');
+
+  mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  })
+  .then(function(stream) {
+
+    var video = document.getElementById('video');
+    video.srcObject = stream;
+    video.play();
+    
+    var canvas = document.createElement('canvas');
+    canvas.width = video.clientWidth;
+    canvas.height = video.clientHeight;
+    console.log(canvas.width + " " + canvas.height);
+    var context = canvas.getContext('2d');
+
+    function scanQRCode() {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      var code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert",
+      });
+      if (code) {
+        window.location.href = code.data;
+      } else {
+        setTimeout(scanQRCode, 200);
+      }
+    }
+
+    scanQRCode();
+  })
+  .catch(function(err) {
+    console.log("An error occurred: " + err);
+  });
+});
+$('#readqr_modal').iziModal({
+  title: 'QRコードを読み込む',
+  headerColor: "#0f9574",
+  radius: 10,
+});
 
 // 設定モーダル
 $(document).on('click', '#settings', function(event) {

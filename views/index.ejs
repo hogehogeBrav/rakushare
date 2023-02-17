@@ -66,6 +66,36 @@
       </form>
     </div>
 
+    <div id="download_modal">
+      <p>どちらの方法でルームに入りますか？</p>
+      <div id="download_button">
+        <button id="download_by_qr">QRコードで入る</button>
+        <button id="download_by_url">URLで入る</button>
+      </div>
+      <!-- <form action="/download" method="POST" id="passkey_form">
+        <p id="folder_name">ルーム名</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="folder_name" required>
+          </label>
+        </div>
+        <p id="passkey">アクセスパスワード</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="password" name="passkey" required>
+          </label>
+        </div>
+        <div id="confirm_button">
+          <button type="button" id="download_cancel">キャンセル</button>
+          <button type="submit" id="download_confirm">ルームに入る</button>
+        </div>
+      </form> -->
+    </div>
+
+    <div id="readqr_modal">
+      <video id="video" autoplay></video>
+    </div>
+
   </main>
   <footer>
     <div id="footer_button">
@@ -119,5 +149,6 @@
   let user_name = '<%= user_name %>';
   let toast = '<%= toast %>';
 </script>
+<script src="jsQR/jsQR.js"></script>
 <script src="/index.js"></script>
 </html>

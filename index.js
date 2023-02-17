@@ -223,6 +223,13 @@ app.delete('/upload', (req, res, next) => {
   });
 });
 
+// QRコード読み込み
+app.get('/qr', (req, res) => {
+  res.render('qr.ejs', {
+    user_name: req.cookies.name,
+  });
+});
+
 // ファイル共有リンク
 app.get('/share/:user_name/:folder_name', (req, res) => {
   connection.query(`SELECT *
@@ -315,6 +322,7 @@ app.delete('/room_list', (req, res) => {
       // オブジェクトがある場合は削除
       if (data.Contents.length === 0) {
         console.log('フォルダは空です');
+        res.status(200).send();
         return;
       }
 
