@@ -60,13 +60,14 @@ $('#download_modal').iziModal({
 $(document).on('click', '#download_by_qr', function(event) {
   event.preventDefault();
   $('#readqr_modal').iziModal('open');
+  // set width
+  $('#readqr_modal').iziModal('setWidth', '100vw');
 
   mediaDevices.getUserMedia({
     video: true,
-    audio: true
+    audio: false
   })
   .then(function(stream) {
-
     var video = document.getElementById('video');
     video.srcObject = stream;
     video.play();
@@ -98,8 +99,17 @@ $(document).on('click', '#download_by_qr', function(event) {
 });
 $('#readqr_modal').iziModal({
   title: 'QRコードを読み込む',
+  subtitle: 'RakuShareのQRコードをカメラにかざしてください！',
   headerColor: "#0f9574",
   radius: 10,
+  onClosing: function(modal) {
+    // カメラ停止
+    var video = document.getElementById('video');
+    video.srcObject.getTracks().forEach(function(track) {
+      track.stop();
+    });
+    video.srcObject = null;
+  }
 });
 
 // 設定モーダル
