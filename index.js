@@ -308,13 +308,13 @@ app.post('/room_join', (req, res) => {
         toast: 10,
       })
     }
-    if(bcrypt.compareSync(req.body.passkey, results[0].passkey)){
-      res.redirect('/share/' + req.body.room_owner + '/' + req.body.room_name + '?k=' + results[0].passkey);
-    } else {
+    if(!bcrypt.compareSync(req.body.passkey, results[0].passkey)){
       res.render('index.ejs', {
         user_name: req.cookies.name,
         toast: 11,
       })
+    } else {
+      res.redirect('/share/' + req.body.room_owner + '/' + req.body.room_name + '?k=' + results[0].passkey);
     }
   });
 })
