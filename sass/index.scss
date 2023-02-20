@@ -54,7 +54,7 @@ button#upload:hover, button#download:hover, button#room:hover {
   transition: all .1s ease;
   box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
 }
-button#download{
+button#upload{
   color: #fff;
   background: #ff5000;
 }
@@ -174,7 +174,7 @@ button#room{
         line-height: 1.15;
         font-size: 16px;
       }
-      button#download_by_form{
+      button#download_by_qr{
         color: #f5f5f5;
         background: #ff5000;
       }

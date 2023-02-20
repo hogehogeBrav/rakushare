@@ -292,6 +292,33 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
   });
 });
 
+// ルームへアクセス
+app.post('/room_join', (req, res) => {
+  connection.query(`SELECT *
+                    FROM folder
+                    INNER JOIN users
+                    ON folder.user = users.ID
+                    WHERE folder_name = ? AND user_name = ?;`,
+    [req.body.room_name, req.body.room_owner], function (error, results, fields) {
+    if (error) throw error;
+    console.log(results);
+    if(results.length == 0){
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 10,
+      })
+    }
+    if(bcrypt.compareSync(req.body.passkey, results[0].passkey)){
+      res.redirect('/share/' + req.body.room_owner + '/' + req.body.room_name + '?k=' + results[0].passkey);
+    } else {
+      res.render('index.ejs', {
+        user_name: req.cookies.name,
+        toast: 11,
+      })
+    }
+  });
+})
+
 // ルームリスト（フォルダ一覧）
 app.get('/room_list', (req, res) => {
   connection.query(`SELECT * FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?);`,

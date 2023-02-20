@@ -39,7 +39,6 @@ $('#upload_modal').iziModal({
   headerColor: "#0f9574",
   radius: 10,
 });
-
 $(document).on('click', '#upload_cancel', function(event) {
   event.preventDefault();
   $('#upload_modal').iziModal('close');
@@ -57,6 +56,7 @@ $('#download_modal').iziModal({
   radius: 10,
 });
 
+// QR読み取りモーダル
 $(document).on('click', '#download_by_qr', function(event) {
   event.preventDefault();
   $('#readqr_modal').iziModal('open');
@@ -87,7 +87,7 @@ $(document).on('click', '#download_by_qr', function(event) {
       if (code) {
         window.location.href = code.data;
       } else {
-        setTimeout(scanQRCode, 200);
+        setTimeout(scanQRCode, 100);
       }
     }
 
@@ -112,6 +112,7 @@ $('#readqr_modal').iziModal({
   }
 });
 
+// ルーム参加モーダル
 $(document).on('click', '#download_by_form', function(event) {
   event.preventDefault();
   $('#room_join_form_modal').iziModal('open');
@@ -122,7 +123,10 @@ $('#room_join_form_modal').iziModal({
   headerColor: "#0f9574",
   radius: 10,
 });
-
+$(document).on('click', '#room_join_cancel', function(event) {
+  event.preventDefault();
+  $('#room_join_form_modal').iziModal('close');
+});
 
 // 設定モーダル
 $(document).on('click', '#settings', function(event) {
@@ -182,6 +186,7 @@ if(toast == 8) swal("ユーザー名は既に使用されています！\n別の
 if(toast == 9) toastr.success('ユーザー名を変更しました', '変更完了');
 // フォルダエラー
 if(toast == 10) toastr.error('フォルダが存在しないか、既に削除されています', 'フォルダエラー');
+if(toast == 11) toastr.error('ルーム名かパスワードが間違えています', 'フォルダエラー');
 
 // 設定後モーダル展開
 if(toast > 5 && toast < 9) $("#setting_modal").iziModal('open');
