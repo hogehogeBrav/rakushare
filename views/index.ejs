@@ -67,33 +67,45 @@
     </div>
 
     <div id="download_modal">
-      <p>どちらの方法でルームに入りますか？</p>
-      <div id="download_button">
-        <button id="download_by_qr">QRコードで入る</button>
-        <button id="download_by_url">URLで入る</button>
+      <div id="download_modal_design">
+        <p>どちらの方法でルームに入りますか？</p>
+        <div id="download_button">
+          <button id="download_by_qr">QRコード</button>
+          <button id="download_by_form">ルーム情報入力</button>
+        </div>
       </div>
-      <!-- <form action="/download" method="POST" id="passkey_form">
-        <p id="folder_name">ルーム名</p>
+    </div>
+
+    <div id="readqr_modal">
+      <video id="video" autoplay></video>
+    </div>
+
+    <div id="room_join_form_modal">
+      <form action="/room_join" method="POST" id="room_join_form">
+        <!-- <p id="room_join_title">ルームに入る</p> -->
+        <p id="room_join_url">相手のユーザ名</p>
         <div class="cp_iptxt">
           <label class="ef">
-          <input type="text" name="folder_name" required>
+          <input type="text" name="room_url" required>
           </label>
         </div>
-        <p id="passkey">アクセスパスワード</p>
+        <p id="room_join_url">ルーム名</p>
+        <div class="cp_iptxt">
+          <label class="ef">
+          <input type="text" name="room_url" required>
+          </label>
+        </div>
+        <p id="room_join_passkey">アクセスパスワード</p>
         <div class="cp_iptxt">
           <label class="ef">
           <input type="password" name="passkey" required>
           </label>
         </div>
         <div id="confirm_button">
-          <button type="button" id="download_cancel">キャンセル</button>
-          <button type="submit" id="download_confirm">ルームに入る</button>
+          <button type="button" id="room_join_cancel">キャンセル</button>
+          <button type="submit" id="room_join_confirm">入室</button>
         </div>
-      </form> -->
-    </div>
-
-    <div id="readqr_modal">
-      <video id="video" autoplay></video>
+      </form>
     </div>
 
   </main>

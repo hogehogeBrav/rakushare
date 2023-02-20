@@ -112,6 +112,18 @@ $('#readqr_modal').iziModal({
   }
 });
 
+$(document).on('click', '#download_by_form', function(event) {
+  event.preventDefault();
+  $('#room_join_form_modal').iziModal('open');
+});
+$('#room_join_form_modal').iziModal({
+  title: 'ルームに参加する',
+  subtitle: '相手のユーザ名と参加先のルーム名とパスワードを入力！',
+  headerColor: "#0f9574",
+  radius: 10,
+});
+
+
 // 設定モーダル
 $(document).on('click', '#settings', function(event) {
   event.preventDefault();

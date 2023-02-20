@@ -90,21 +90,21 @@ button#room {
   margin-bottom: 8px;
 }
 
-#upload_modal form {
+#upload_modal form, #room_join_form_modal form {
   padding: 25px;
   background-color: #f0fffb;
 }
-#upload_modal form p {
+#upload_modal form p, #room_join_form_modal form p {
   margin-bottom: 8px;
 }
-#upload_modal form input {
+#upload_modal form input, #room_join_form_modal form input {
   margin-bottom: 10px;
 }
-#upload_modal form .cp_iptxt {
+#upload_modal form .cp_iptxt, #room_join_form_modal form .cp_iptxt {
   position: relative;
   width: 100%;
 }
-#upload_modal form .cp_iptxt input[type=text], #upload_modal form .cp_iptxt input[type=password] {
+#upload_modal form .cp_iptxt input[type=text], #upload_modal form .cp_iptxt input[type=password], #room_join_form_modal form .cp_iptxt input[type=text], #room_join_form_modal form .cp_iptxt input[type=password] {
   font: 15px/24px sans-serif;
   box-sizing: border-box;
   width: 100%;
@@ -115,17 +115,17 @@ button#room {
   border: 1px solid #1b2538;
   border-radius: 4px;
 }
-#upload_modal form .ef input[type=text]:focus, #upload_modal form .ef input[type=password]:focus {
+#upload_modal form .ef input[type=text]:focus, #upload_modal form .ef input[type=password]:focus, #room_join_form_modal form .ef input[type=text]:focus, #room_join_form_modal form .ef input[type=password]:focus {
   border: 1px solid #da3c41;
   outline: none;
   box-shadow: 0 0 5px 1px rgba(218, 60, 65, 0.5);
 }
-#upload_modal form #confirm_button {
+#upload_modal form #confirm_button, #room_join_form_modal form #confirm_button {
   display: flex;
   justify-content: space-evenly;
   margin-top: 30px;
 }
-#upload_modal form #confirm_button button {
+#upload_modal form #confirm_button button, #room_join_form_modal form #confirm_button button {
   text-align: center;
   width: 40%;
   height: 50px;
@@ -141,11 +141,45 @@ button#room {
   line-height: 1.15;
   font-size: 16px;
 }
-#upload_modal form #confirm_button button#upload_cancel {
+#upload_modal form #confirm_button button#upload_cancel, #upload_modal form #confirm_button button#room_join_cancel, #room_join_form_modal form #confirm_button button#upload_cancel, #room_join_form_modal form #confirm_button button#room_join_cancel {
   color: #f5f5f5;
   background: #ff5000;
 }
-#upload_modal form #confirm_button button:hover {
+#upload_modal form #confirm_button button:hover, #room_join_form_modal form #confirm_button button:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+}
+
+#download_modal #download_modal_design {
+  text-align: center;
+  padding: 25px;
+}
+#download_modal #download_modal_design #download_button {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 30px;
+}
+#download_modal #download_modal_design #download_button button {
+  text-align: center;
+  width: 40%;
+  height: 50px;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 0;
+  border: 0;
+  color: #000021;
+  background: #1de9b6;
+  line-height: 1.15;
+  font-size: 16px;
+}
+#download_modal #download_modal_design #download_button button#download_by_form {
+  color: #f5f5f5;
+  background: #ff5000;
+}
+#download_modal #download_modal_design #download_button button:hover {
   transition: all 0.1s ease;
   box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
 }
@@ -254,19 +288,20 @@ footer #footer_button #settings p {
   margin-bottom: 8px;
 }
 #username_confirm_modal #username_confirm_modal_design #username_confirm_modal_button {
-  margin-top: 2svh;
   display: flex;
   justify-content: space-evenly;
+  margin-top: 30px;
 }
 #username_confirm_modal #username_confirm_modal_design #username_confirm_modal_button button {
   text-align: center;
-  width: 20%;
-  height: 35px;
+  width: 40%;
+  height: 50px;
   display: inline-block;
   outline: none;
   cursor: pointer;
   font-weight: 600;
   border-radius: 3px;
+  padding: 12px 0;
   border: 0;
   color: #000021;
   background: #1de9b6;
@@ -276,6 +311,10 @@ footer #footer_button #settings p {
 #username_confirm_modal #username_confirm_modal_design #username_confirm_modal_button button#username_cancel_button {
   color: #f5f5f5;
   background: #ff5000;
+}
+#username_confirm_modal #username_confirm_modal_design #username_confirm_modal_button button:hover {
+  transition: all 0.1s ease;
+  box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
 }
 
 /* PC */
