@@ -163,7 +163,11 @@ button#back {
     height: 55svh;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-content: flex-start;
     width: 60vw;
+  }
+  #room_list .room {
+    margin-bottom: 3svh;
   }
   #room_list .room a {
     height: 15vh;

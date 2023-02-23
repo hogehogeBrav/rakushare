@@ -228,8 +228,10 @@ button#back{
     height: 55svh;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-content: flex-start;
     width: 60vw;
     .room{
+      margin-bottom: 3svh;
       a{
         height: 15vh;
         width: 25vw;

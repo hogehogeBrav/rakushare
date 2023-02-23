@@ -18,6 +18,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script src="/iziModal/iziModal.js"></script>
   <script src="/toastr/toastr.min.js"></script>
+  <script src="/unitChangeForByte.js"></script>
 </head>
 <body>
   <header>
@@ -43,7 +44,10 @@
               <div class="thumb">
                 <img src=<%= url[i] %>></img>
               </div>
-              <h2><%= file_name[i] %></h2>
+              <div class="textarea">
+                <h2><%= file_name[i] %></h2>
+                <p><%= file_size[i] %></p>
+              </div>
             </div>
           </a>
         </li>
@@ -57,4 +61,5 @@
   
 </body>
 <script src="/share.js"></script>
+<script src="/unitChangeForByte.js"></script>
 </html>

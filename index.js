@@ -141,11 +141,15 @@ app.post('/upload',(req, res) => {
               toast: 1,
             });
           } else {
-            // DB 登録
+            // 今の時刻から3日後
+            const delete_date = new Date();
+            delete_date.setDate(delete_date.getDate() + 3);
+
+            // DBにフォルダ情報を保存
             connection.query(
-              `INSERT INTO folder (user, folder_name, passkey, state) 
-              VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?)`,
-              [req.cookies.name ,req.body.folder_name, hash, 0],
+              `INSERT INTO folder (user, folder_name, passkey, state, delete_date) 
+              VALUES ((SELECT id FROM users WHERE user_name = ?), ?, ?, ?, ?)`,
+              [req.cookies.name ,req.body.folder_name, hash, 0, delete_date],
               (error, results, fields) => {
                 if (error) throw error;
                 console.log('The solution is: ', results);
@@ -256,6 +260,7 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
             console.log(data);
             let url = [];
             let file_name = [];
+            let file_size = [];
             for (let i = 0; i < data.Contents.length; i++) {
               url.push(s3.getSignedUrl('getObject', {
                 Bucket: process.env.AWS_BUCKET_NAME,
@@ -267,6 +272,7 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
             // ファイル名を取得
             for (let i = 0; i < data.Contents.length; i++) {
               file_name.push(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""));
+              file_size.push(byteFormat(data.Contents[i].Size, 2));
             }
 
             console.log(url);
@@ -279,6 +285,7 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
               data: data.Contents,
               url: url,
               file_name: file_name,
+              file_size: file_size,
             });
           }
         });
@@ -321,7 +328,7 @@ app.post('/room_join', (req, res) => {
 
 // ルームリスト（フォルダ一覧）
 app.get('/room_list', (req, res) => {
-  connection.query(`SELECT * FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?);`,
+  connection.query(`SELECT * FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?) AND delete_date > NOW() ORDER BY delete_date DESC;`,
     [req.cookies.name], function (error, results, fields) {
     if (error) throw error;
     console.log(results);
@@ -484,5 +491,25 @@ function usernameCheck(str){
       return 0;
   }
 }
+
+/**
+ * バイト書式変換
+ * @param {number} number 適用する数値
+ * @param {number} [point=0] 小数点の桁数
+ * @param {number} [com=1024] 1KBあたりのバイト数
+ * @return {string} 書式化された値を返す
+ */
+function byteFormat(number, point, com) {
+	if (typeof number === 'undefined') throw '適用する数値が指定されていません。';
+	if (!String(number).match(/^[0-9][0-9\.]+?/)) throw '適用する数値に誤りがあります。';
+	if (!point) point = 0;
+	if (!com) com = 1024;
+
+	var bytes  = Number(number),
+    suffix = ['Byte', 'KB', 'MB', 'GB', 'TB', 'PB', 'ZB', 'YB'],
+    target = Math.floor(Math.log(bytes) / Math.log(com));
+
+	return (bytes / Math.pow(com, Math.floor(target))).toFixed(point) + ' ' + suffix[target];
+};
 
 http_socket.listen(19000);

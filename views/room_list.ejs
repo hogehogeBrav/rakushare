@@ -36,7 +36,7 @@
             <h2 class="visuallyhidden"><%= value.folder_name %>のルーム</h2>
             <div class="text">
               <p class="roomname"><%= value.folder_name %> のルーム</p>
-              <p class="deadline"><%= value.folder_name %></p>
+              <p class="deadline">有効期限：<%= new Date(value.delete_date).toLocaleString() %></p>
             </div>
             <button class="room_delete" value="<%= value.folder_name %>">
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAABnElEQVRYR+2YvUoEMRSFZ30CwVJs1sJKUMHOYrHRwsq/1tLaJxDfYGs7tfMP0dJCBSsLRbHUxsJexE7U7wqBJWaGZJLA7noDB5bMPSeHk9ndy20UPbQaPeS1ULO5bqsvkh0inXkwCgZKkvpk/xQ85ErS1nUlO0PRCRDDPmuDorZPYWyNy+wLoiOBwuvUbwdygstts9Mo3ASrFMU3nDWwV4PrTbHNLsE89Gb/LbyK4BrqFx+ewQ647tSzzS7z8CDBgakk5LZ2jVi3m33D6DD4EMPdblY8zoILl9kVNvdT3WEinVXzatrJqtnIhDXZyABL6ZqsJksC/+81kIZHfpfrLOk/pA/xWUmSVbOOqEuTDWkRLxHe8rlHR80mey1Prrxqvz229gaeifmWJfmC+R4WW6dmYxMs42uymmxVI7PIw6NcEdXUlcHLsetPYZLN25qiuWgTCN+7zMqejDDHc50cqHtH/ZThuKaIMkE8B2OBwqnLHxGcA69VZuXZIFgATVA2TE5tzujJYO4JnIH3zkP6YkyfK7UoXU02Kr4K8g8nVVUsMXsG0gAAAABJRU5ErkJggg=="/>
