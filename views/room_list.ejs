@@ -27,7 +27,7 @@
     <h1><%= user_name %>さんのルーム一覧</h1>
   </div>
     <% if(room_list.length == 0) { %>
-      <p id="room_empty">このルームにはファイルがありません</p>
+      <p id="room_empty">あなたのルームはまだ作成されていません！</p>
     <% } else { %> 
       <ul id="room_list">
       <% room_list.forEach(function (value, key) { %>
