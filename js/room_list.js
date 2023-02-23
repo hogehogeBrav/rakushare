@@ -22,7 +22,7 @@ let delete_folder_name = "";
 // ルーム削除モーダル
 $(document).on('click', '.room_delete', function(event) {
   delete_folder_name = $(this).attr("value");
-  $('#delete_folder_name').html(delete_folder_name + "を削除しますか？");
+  $('#delete_folder_name').html(delete_folder_name + " のルームを削除しますか？");
   // $('#room_delete').val(delete_folder_name);
   console.log(delete_folder_name);
   event.preventDefault();
