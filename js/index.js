@@ -64,8 +64,9 @@ $(document).on('click', '#download_by_qr', function(event) {
   $('#readqr_modal').iziModal('setWidth', '100vw');
 
   mediaDevices.getUserMedia({
-    facingMode: 'environment',
-    video: true,
+    video: {
+      facingMode: "environment"
+    },
     audio: false
   })
   .then(function(stream) {
