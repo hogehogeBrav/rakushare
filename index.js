@@ -273,15 +273,25 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
 
             console.log(url);
 
-            res.render('share.ejs', {
-              user_name: req.cookies.name,
-              share_user_name: req.params.user_name,
-              folder_name: req.params.folder_name,
-              passkey: req.query.k,
-              data: data.Contents,
-              url: url,
-              file_name: file_name,
-              file_size: file_size,
+            const share_url = '/share/' + req.params.user_name + '/' + req.params.folder_name + '?k=' + req.query.k;
+
+            QRCode.toDataURL(share_url, (error, qr_url) => {
+              if (error) {
+                console.log(error);
+                return;
+              }
+              res.render('share.ejs', {
+                user_name: req.cookies.name,
+                share_user_name: req.params.user_name,
+                folder_name: req.params.folder_name,
+                passkey: req.query.k,
+                data: data.Contents,
+                url: url,
+                file_name: file_name,
+                file_size: file_size,
+                share_url: share_url,
+                qr_url: qr_url,
+              });        
             });
           }
         });

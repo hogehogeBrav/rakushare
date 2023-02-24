@@ -127,6 +127,85 @@ button#back{
   background: #ff5000;
 }
 
+#share_modal{
+  #share_modal_content{
+    margin: 0 auto;
+    h3{
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      height: 5svh;
+      line-height: 5svh;
+      margin-bottom: 2svh;
+      padding: 0;
+      background-color: #f5f5f5d0;
+    }
+    .cp_iptxt {
+      margin: 0 auto;
+      position: relative;
+      width: 70%;
+    }
+    .cp_iptxt input[type='text'], .cp_iptxt input[type='password'] {
+      font: 15px/24px sans-serif;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0.3em;
+      transition: 0.3s;
+      letter-spacing: 1px;
+      color: #aaaaaa;
+      border: 1px solid #1b2538;
+      border-radius: 4px;
+    }
+    .ef input[type='text']:focus, .ef input[type='password']:focus {
+      border: 1px solid #da3c41;
+      outline: none;
+      box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+    }
+  
+    #copy-url, #show-qr-code{
+      display: block;
+      text-align: center;
+      margin: 2svh auto;
+      width: 30%;
+      height: 40px;
+      background-color: #1de9b6;
+      border: none;
+      border-radius: 3px;
+      color: #000021;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+}
+
+#qr_code_modal{
+  #qr_code_modal_content{
+    margin: 0 auto;
+    .message{
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      height: 5svh;
+      // line-height: 5svh;
+      margin: 2svh auto;
+      margin-bottom: 2svh;
+      padding: 0 5vw;
+      background-color: #f5f5f5d0;
+    }
+    .room_name{
+      text-align: center;
+    }
+    .qr_code{
+      display: block;
+      text-align: center;
+      margin: 0 auto 2svh auto;
+      width: 60vw;
+      max-width: 300px;
+    }
+  }
+}
+
 /* PC */
 @media screen and (min-width:960px){
   header{
