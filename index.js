@@ -3,8 +3,14 @@ require('dotenv').config();
 const db = require("./settings/db.js");
 const express = require('express');
 const app = express();
-const http_socket = require('http').Server(app);
-const io_socket = require('socket.io')(http_socket);
+const fs = require('fs');
+// const http_socket = require('https').Server(app);
+const https = require('https').createServer({
+  key: fs.readFileSync('./privatekey.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+}, app)
+
+// const io_socket = require('socket.io')(http_socket);
 // const passport = require('passport');
 const cron = require('node-cron');
 const mysql = require('mysql2');
@@ -12,18 +18,8 @@ const aws = require('aws-sdk');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
 const QRCode = require('qrcode');
-const fs = require('fs');
 
 app.set('view engine', 'ejs');
-
-// // AWS RDS
-// const connection = mysql.createConnection({
-//   host: process.env.AWS_RDS_HOST,
-//   user: process.env.AWS_RDS_USER,
-//   password: process.env.AWS_RDS_PASSWORD,
-//   database: process.env.AWS_RDS_DB,
-//   port: process.env.AWS_RDS_PORT
-// });
 
 // local DB
 const connection = mysql.createConnection({
@@ -430,17 +426,6 @@ app.post('/user_name', (req, res) => {
   });
 });
 
-io_socket.on('connection', function(socket){
-  console.log('connected');
-  socket.on('c2s' , function(msg){
-    io_socket.to(msg.auctionid).emit('s2c', msg);
-  });
-  socket.on('c2s-join', function(msg){
-    console.log('c2s-join:' + msg.auctionid);
-    socket.join(msg.auctionid);
-  });
-});
-
 // ユーザーcron
 // cron.schedule('*/1 * * * *', () => {
 //   console.log('cron');
@@ -512,4 +497,4 @@ function byteFormat(number, point, com) {
 	return (bytes / Math.pow(com, Math.floor(target))).toFixed(point) + ' ' + suffix[target];
 };
 
-http_socket.listen(19000);
+https.listen(443);
