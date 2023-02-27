@@ -34,3 +34,15 @@ iPhone、iPad、Android等の端末でのネイティブアプリの場合はFlu
 - 動画のURL （Google Drive） -> 1月末
 - 動画の完成 -> 2月19日
 - システムの完成 -> 2月26日
+
+### EC2 Lets Encript
+
+``` bash
+sudo certbot certonly --standalone -d xxxxx.bounceme.net
+```
+
+### EC2 Launch Node Server
+
+``` bash
+sudo `which node` index.js
+```
