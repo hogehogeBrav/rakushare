@@ -6,7 +6,7 @@ const app = express();
 const fs = require('fs');
 // const http_socket = require('https').Server(app);
 const https = require('https').createServer({
-  key: fs.readFileSync('./pem/privatekey.pem'),
+  key: fs.readFileSync('./pem/privkey.pem'),
   cert: fs.readFileSync('./pem/cert.pem'),
 }, app)
 
@@ -507,4 +507,4 @@ function byteFormat(number, point, com) {
 	return (bytes / Math.pow(com, Math.floor(target))).toFixed(point) + ' ' + suffix[target];
 };
 
-https.listen(3000);
+https.listen(443);
