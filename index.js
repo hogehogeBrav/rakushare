@@ -152,7 +152,7 @@ app.post('/upload',(req, res) => {
               }
             );
 
-            const share_url = '/share/' + req.cookies.name + '/' + req.body.folder_name + '?k=' + hash;
+            const share_url = 'https://rakushare.bounceme.net/share/' + req.cookies.name + '/' + req.body.folder_name + '?k=' + hash;
 
             QRCode.toDataURL(share_url, (error, url) => {
               if (error) {
@@ -273,7 +273,7 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
 
             console.log(url);
 
-            const share_url = '/share/' + req.params.user_name + '/' + req.params.folder_name + '?k=' + req.query.k;
+            const share_url = 'https://rakushare.bounceme.net/share/' + req.params.user_name + '/' + req.params.folder_name + '?k=' + req.query.k;
 
             QRCode.toDataURL(share_url, (error, qr_url) => {
               if (error) {
