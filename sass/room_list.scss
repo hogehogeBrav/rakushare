@@ -1,6 +1,6 @@
 // SmartPhone
 body{
-  font-family: "M PLUS 1p";
+  // font-family: "M PLUS 1p";
   background-image: url(/site_images/kumosora1.png);
   background-size: cover;
   height: 100svh;
@@ -32,15 +32,19 @@ header{
 }
 
 #room_empty{
+  max-width: 600px;
   display: block;
   text-align: center;
   width: 60%;
-  height: 30px;
-  line-height: 30px;
+  padding: 10px 10px;
+  line-height: 25px;
   margin: 0 auto 3svh auto;
   background-color: #fff;
   border: solid 1px #aaa;
   border-radius: 5px;
+  a{
+    color: #065FD4;
+  }
 }
 
 #room_list{
@@ -221,6 +225,11 @@ button#back{
 @media screen and (min-width:960px){
   header{
     display: block;
+  }
+
+  #room_empty{
+    font-size: 20px;
+    line-height: 30px;
   }
 
   #room_list{
