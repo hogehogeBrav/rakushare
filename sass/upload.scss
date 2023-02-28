@@ -186,12 +186,6 @@ button#back{
     display: block;
   }
 
-  #head_text{
-    font-size: 26px;
-    height: 8svh;
-    line-height: 8svh;
-  }
-
   #upload_area{
     margin: 0 auto;
     width: 50vw;
@@ -210,9 +204,9 @@ button#back{
         }
       }
       .dz-preview{
-        margin: 20px auto;
-        width: 11vw;
-        height: 11vw;
+        margin: 23px 2.4vw;
+        width: 9vw;
+        height: 9vw;
         .dz-image{
           width: 100%;
           height: 100%;

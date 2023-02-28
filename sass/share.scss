@@ -22,9 +22,9 @@ header{
 
 #sp_msg{
   text-align: center;
-  width: 60%;
-  height: 30px;
-  line-height: 30px;
+  width: 70%;
+  // height: 30px;
+  line-height: 32px;
   margin: 0 auto 3svh auto;
   background-color: #fff;
   border: solid 1px #aaa;
@@ -33,6 +33,19 @@ header{
 
 #pc_msg{
   display: none;
+}
+
+#file_empty{
+  max-width: 600px;
+  display: block;
+  text-align: center;
+  width: 60%;
+  padding: 10px 10px;
+  line-height: 25px;
+  margin: 0 auto 3svh auto;
+  background-color: #fff;
+  border: solid 1px #aaa;
+  border-radius: 5px;
 }
 
 #head_text{
@@ -214,6 +227,11 @@ button#back{
 
   #sp_msg{
     display: none;
+  }
+
+  #file_empty{
+    font-size: 18px;
+    line-height: 30px;
   }
 
   ul{

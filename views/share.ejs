@@ -28,13 +28,13 @@
     <h1><%= share_user_name %>さんの<%= folder_name %>ルーム</h1>
   </div>
   <div id="sp_msg">
-    <p>タップしてダウンロード</p>
+    <p>タップしてダウンロード！</p>
   </div>
   <div id="pc_msg">
-    <p>クリックしてダウンロード</p>
+    <p>クリックしてダウンロード！</p>
   </div>
   <% if(data.length == 0) { %>
-    <p>このルームにはファイルがありません</p>
+    <p id="file_empty">このルームにはファイルがありません</p>
   <% } else { %> 
     <ul> 
       <% for(var i = 0; i < data.length; i++) { %>

@@ -334,6 +334,10 @@ app.post('/room_join', (req, res) => {
 
 // ルームリスト（フォルダ一覧）
 app.get('/room_list', (req, res) => {
+  // cookieがない場合はログイン画面にリダイレクト
+  if (req.cookies.name === undefined) {
+    res.redirect('/');
+  }
   connection.query(`SELECT * FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?) AND delete_date > NOW() ORDER BY delete_date DESC;`,
     [req.cookies.name], function (error, results, fields) {
     if (error) throw error;
