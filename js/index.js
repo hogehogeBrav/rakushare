@@ -87,7 +87,10 @@ $(document).on('click', '#download_by_qr', function(event) {
         inversionAttempts: "dontInvert",
       });
       if (code) {
-        window.location.href = code.data;
+        // 特定のドメインのみ処理する
+        if(code.data.includes("https://rakushare.bounceme.net")){
+          window.location.href = code.data;
+        }
       } else {
         setTimeout(scanQRCode, 100);
       }
