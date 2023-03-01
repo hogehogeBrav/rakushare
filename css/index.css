@@ -351,6 +351,7 @@ footer #footer_button #settings p {
     font-size: 22px;
   }
   #info_area {
+    min-width: 500px;
     border-radius: 3px;
     height: 20svh;
     width: 40%;
