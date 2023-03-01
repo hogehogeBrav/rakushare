@@ -1,3 +1,8 @@
+// ダブルタップ拡大無効
+html {
+  touch-action: manipulation;
+}
+
 // SmartPhone
 body{
   font-family: sans-serif;

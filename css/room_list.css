@@ -1,3 +1,7 @@
+html {
+  touch-action: manipulation;
+}
+
 body {
   font-family: sans-serif;
   background-image: url(/site_images/kumosora1.png);
