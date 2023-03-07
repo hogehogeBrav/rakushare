@@ -4,20 +4,19 @@ const db = require("./settings/db.js");
 const express = require('express');
 const app = express();
 const fs = require('fs');
-// const http_socket = require('https').Server(app);
-const https = require('https').createServer({
-  key: fs.readFileSync('./pem/privkey.pem'),
-  cert: fs.readFileSync('./pem/cert.pem'),
-}, app)
-
-// const io_socket = require('socket.io')(http_socket);
-// const passport = require('passport');
-const cron = require('node-cron');
 const mysql = require('mysql2');
 const aws = require('aws-sdk');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
 const QRCode = require('qrcode');
+const cron = require('node-cron');
+
+// http, httpsの設定
+// const http_socket = require('https').Server(app);
+const https = require('https').createServer({
+  key: fs.readFileSync('./pem/privkey.pem'),
+  cert: fs.readFileSync('./pem/cert.pem'),
+}, app)
 
 app.set('view engine', 'ejs');
 
@@ -426,6 +425,41 @@ app.post('/user_name', (req, res) => {
       });
       return;
     } else {
+      // 元のユーザ名のフォルダを削除
+      // フォルダ内のオブジェクトを取得
+      var params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Prefix: "share_folder/" + req.cookies.name,
+      };
+      s3.listObjects(params, (err, data) => {
+        if (err) throw err;
+        // オブジェクトがある場合は削除
+        if (data.Contents.length === 0) {
+          console.log('フォルダは空です');
+          return;
+        }
+        // オブジェクトを削除
+        s3.deleteObjects(
+          {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Delete: {
+              Objects: data.Contents.map(({ Key }) => ({ Key })),
+              Quiet: false,
+            },
+          },
+          (err, data) => {
+            if (err) throw err;
+            console.log('フォルダが削除されました');
+          }
+        );
+      });
+      // 元のユーザ名のフォルダをDBから削除
+      connection.query('DELETE FROM folder WHERE user = (SELECT id FROM users WHERE user_name = ?);',
+      [req.cookies.name],
+      (error, results, fields) => {
+        if (error) throw error;
+        console.log('The solution is: ', results);
+      });
       // ユーザー名をDBに保存
       connection.query('UPDATE users SET user_name = ?, add_date = NOW() WHERE user_name = ?',
       [req.body.user_name, req.cookies.name],
@@ -440,10 +474,14 @@ app.post('/user_name', (req, res) => {
   });
 });
 
-// ユーザーcron
-// cron.schedule('*/1 * * * *', () => {
-//   console.log('cron');
-//   connection.query('DELETE ', function (error, results, fields) {
+// cron, 有効期限が切れたフォルダ（ルーム）名をDBから削除
+cron.schedule('* * * * *', () => {
+  connection.query('DELETE FROM folder WHERE delete_date < NOW();',
+  (error, results, fields) => {
+    if (error) throw error;
+    console.log('cron job completed');
+  });
+});
 
 // 関数群
 // function usernameCheck(req, res, next) {
