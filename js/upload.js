@@ -21,7 +21,8 @@ toastr.success('ルームを作成しました！', 'ルーム作成');
 var myDropzone = new Dropzone("div#awesome", { 
   url: "/upload?folder_name=" + folder_name,
   method: "put",
-  maxFiles: 6,
+  maxFiles: 6, // ファイル数の上限
+  maxFilesize: 100, // ファイルサイズ、MB
   dictMaxFilesExceeded: "ファイルは6ファイルまで追加が可能です。",
   dictDefaultMessage: "ここにファイルをドラッグ&ドロップ<br>OR<br>クリックしてファイルを選択",
   addRemoveLinks: true,
