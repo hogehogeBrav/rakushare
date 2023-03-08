@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
 const QRCode = require('qrcode');
 const cron = require('node-cron');
+const filetype = require('file-type');
 
 // http, httpsの設定
 // const http_socket = require('https').Server(app);
@@ -188,6 +189,7 @@ const upload = multer({
       console.log(req);
       cb(null, "share_folder/" + req.cookies.name + "/" + req.query.folder_name + "/" + Buffer.from(file.originalname, 'latin1').toString('utf8',))
     },
+    contentType: multerS3.AUTO_CONTENT_TYPE,
   })
 });
 
@@ -255,20 +257,36 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
             let url = [];
             let file_name = [];
             let file_size = [];
+            let file_type = [];
+
+            // ファイル名を取得
             for (let i = 0; i < data.Contents.length; i++) {
               url.push(s3.getSignedUrl('getObject', {
                 Bucket: process.env.AWS_BUCKET_NAME,
                 Key: data.Contents[i].Key,
                 Expires: 60 * 60 * 24 * 7,
               }));
-            }
-
-            // ファイル名を取得
-            for (let i = 0; i < data.Contents.length; i++) {
               file_name.push(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""));
-              file_size.push(byteFormat(data.Contents[i].Size, 2));
+              file_size.push(byteFormat(data.Contents[i].Size, 2))
+
+              // ファイルタイプを格納
+              const extcheck = require('./extCheck.js');
+              if(extcheck.isImageExt(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""))){
+                file_type.push(1);
+              } else if(extcheck.isVideoExt(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""))){
+                file_type.push(2);
+              } else if(extcheck.isAudioExt(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""))){
+                file_type.push(3);
+              } else if(extcheck.isPdfExt(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""))){
+                file_type.push(4);
+              } else if(extcheck.isCompExt(data.Contents[i].Key.replace("share_folder/" + req.params.user_name + "/" + req.params.folder_name + "/", ""))){
+                file_type.push(5);
+              } else {
+                file_type.push(0);
+              }
             }
 
+            console.log(file_type);
             console.log(url);
 
             const share_url = 'https://rakushare.bounceme.net/share/' + req.params.user_name + '/' + req.params.folder_name + '?k=' + req.query.k;
@@ -287,6 +305,7 @@ app.get('/share/:user_name/:folder_name', (req, res) => {
                 url: url,
                 file_name: file_name,
                 file_size: file_size,
+                file_type: file_type,
                 share_url: share_url,
                 qr_url: qr_url,
               });        

@@ -20,6 +20,7 @@
   <script src="/iziModal/iziModal.js"></script>
   <script src="/toastr/toastr.min.js"></script>
   <script src="/unitChangeForByte.js"></script>
+  <script src="/extCheck.js"></script>
 </head>
 <body>
   <header>
@@ -43,7 +44,19 @@
           <a href=<%= url[i] %> download=<% file_name[i] %> >
             <div class="share">
               <div class="thumb">
-                <img src=<%= url[i] %> height="50px" width="50px"></img>
+                <% if(file_type[i] === 1) { %>
+                  <img class="imagefile" src=<%= url[i] %> height="50px" width="50px"></img>
+                <% } else if(file_type[i] === 2) { %>
+                  <img src="/images/video.png" height="50px" width="50px"></img>
+                <% } else if(file_type[i] === 3) { %>
+                  <img src="/images/audio.png" height="50px" width="50px"></img>
+                <% } else if(file_type[i] === 4) { %>
+                  <img src="/images/pdf.png" height="50px" width="50px"></img>
+                <% } else if(file_type[i] === 5) { %>
+                  <img src="/images/comp.png" height="50px" width="50px"></img>
+                <% } else if(file_type[i] === 0) { %>
+                  <img src="/images/other.png" height="50px" width="50px"></img>
+                <% } %>
               </div>
               <div class="textarea">
                 <h2><%= file_name[i] %></h2>
