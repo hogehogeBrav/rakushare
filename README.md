@@ -46,3 +46,7 @@ sudo certbot certonly --standalone -d xxxxx.bounceme.net
 ``` bash
 sudo `which node` index.js
 ```
+
+## 動画やらなんやら
+
+https://drive.google.com/file/d/1ZOSud_uG8n6R_K16tSY_muNUwEHZhIfK/view?usp=share_link
